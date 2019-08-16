@@ -1,24 +1,15 @@
 import React from "react";
-import { LineChart, PieChart ,AreaChart } from "react-chartkick";
-import "chart.js";
+import { Line, Bar } from "react-chartjs-2";
+
+import "./App.css";
 // import Navbar from "./navbar";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartdata: [
-        {
-          name: "Workout",
-          data: { "2017-01-01": 3, "2017-01-02": 4 }
-        },
-        {
-          name: "Call parents",
-          data: { "2017-01-01": 5, "2017-01-02": 3 }
-        }
-      ],
       isLoading: true,
-      username: "mileycyrus"
+      username: "lanadelrey"
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -39,11 +30,159 @@ export default class App extends React.Component {
     fetch("https://www.instagram.com/" + this.state.username + "/?__a=1")
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
+        var Engs = [];
+        var Likes = [];
+        var Dates = [];
+        var Comments = [];
+
+        const followers_count =
+          responseJson.graphql.user.edge_followed_by.count;
+
+        responseJson.graphql.user.edge_owner_to_timeline_media.edges.map(x => {
+          Dates.push(x.node.taken_at_timestamp);
+          Likes.push(x.node.edge_liked_by.count);
+          Engs.push(
+            ((x.node.edge_liked_by.count + x.node.edge_media_to_comment.count) /
+              followers_count) *
+              100
+          );
+          Comments.push(x.node.edge_media_to_comment.count);
+        });
+
+        //Calc TotalEngagement
+        var TotalEngagement =
+          ((Likes.reduce((a, b) => a + b, 0) +
+            Comments.reduce((a, b) => a + b, 0)) /
+            12 /
+            followers_count) *
+          100;
+
+        //Like Comment Per Post Chart
+        var LCChart = {
+          chartdata: {
+            labels: Dates,
+            datasets: [
+              {
+                label: "Like",
+                backgroundColor: "rgba(250,126,30,0.4)",
+                borderColor: "#fa7e1e",
+                data: Likes,
+                yAxisID: "y-axis-1"
+              },
+              {
+                label: "Comment",
+                backgroundColor: "rgba(214,41,118,0.4)",
+                borderColor: "#d62976",
+                data: Comments,
+                yAxisID: "y-axis-2"
+              }
+            ]
+          },
+          chartoption: {
+            responsive: true,
+            hoverMode: "index",
+            stacked: false,
+            title: {
+              display: true,
+              text: "Like & Comment & Engagement through time"
+            },
+            scales: {
+              yAxes: [
+                {
+                  type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                  display: true,
+                  position: "left",
+                  id: "y-axis-1"
+                },
+                {
+                  type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                  display: true,
+                  position: "right",
+                  id: "y-axis-2",
+
+                  // grid line settings
+                  gridLines: {
+                    drawOnChartArea: false // only want the grid lines for one axis to show up
+                  }
+                }
+              ]
+            }
+          }
+        };
+
+        //Like Comment Eng Per Post Chart
+        var LCEChart = {
+          chartdata: {
+            labels: Dates,
+            datasets: [
+              {
+                type: "bar",
+                label: "Like",
+                backgroundColor: "rgba(250,126,30,0.4)",
+                borderColor: "#fa7e1e",
+                data: Likes,
+                yAxisID: "y-axis-1"
+              },
+              {
+                type: "bar",
+                label: "Comment",
+                backgroundColor: "rgba(214,41,118,0.4)",
+                borderColor: "#d62976",
+                data: Comments,
+                yAxisID: "y-axis-1"
+              },
+              {
+                type: "line",
+                // fill:false,
+                label: "Engagement",
+                backgroundColor: "rgba(150,47,191,0.4)",
+                borderColor: "#962fbf",
+                data: Engs,
+                yAxisID: "y-axis-2"
+              }
+            ]
+          },
+          chartoption: {
+            responsive: true,
+            hoverMode: "index",
+            stacked: false,
+            title: {
+              display: true,
+              text: "Like & Comment & Engagement through time"
+            },
+            scales: {
+              yAxes: [
+                {
+                  type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                  display: true,
+                  position: "left",
+                  id: "y-axis-1"
+                },
+                {
+                  type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                  display: true,
+                  position: "right",
+                  id: "y-axis-2",
+
+                  // grid line settings
+                  gridLines: {
+                    drawOnChartArea: false // only want the grid lines for one axis to show up
+                  }
+                }
+              ]
+            }
+          }
+        };
+
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson
+            LCChart: LCChart,
+            LCEChart: LCEChart,
+            dataSource: responseJson,
+            totaleng: TotalEngagement,
+            avglike: Likes.reduce((a, b) => a + b, 0) / 12,
+            avgcomment: Comments.reduce((a, b) => a + b, 0) / 12
           },
           function() {}
         );
@@ -54,39 +193,21 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    return fetch("https://www.instagram.com/" + this.state.username + "/?__a=1")
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: responseJson
-          },
-          function() {}
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    return this.fetchData();
   }
 
   render() {
     if (this.state.isLoading) {
+      // if (true) {
       return (
-        <div className="col-3">
-          <div className="row bg-dark">
-            <div className="col text-center">
-              <br />
-              <br />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col text-center">
-              <br />
-              <img alt="loading" src="../images/loading.svg" />
-            </div>
-          </div>
+        <div className="h-100 container-fluid text-center align-content-center">
+          <br />
+          <h1 className="text-left">Loading</h1>
+          <img
+            className="img-fluid mx-auto align-self-center"
+            alt="loading"
+            src="./loading.png"
+          />
         </div>
       );
     }
@@ -96,17 +217,95 @@ export default class App extends React.Component {
         <nav
           class="navbar navbar-light fixed-top shadow-sm"
           style={{
-            backdropFilter: "saturate(180%) blur(20px)",
+            WebkitBackdropFilter: "saturate(180%) blur(20px)",
+            backdropFilter: "saturate(180%) blur(10px)",
             backgroundColor: "rgba(255,255,255,0.7)"
           }}
         >
-          <span class="navbar-brand mb-0 h1">Navbar</span>
+          <span class="navbar-brand mb-0 h1 fontc">IGSAnalyzer</span>
         </nav>
+
+        <br />
+
         <br />
         <br />
-        <div className="card mt-4 border-0 shadow-lg">
+
+        {/* Title Card */}
+        <div className="card border-0 shadow mb-4">
           <div className="card-body">
-            {/* Profile */}
+            <div dir="rtl" className="row">
+              <div className="col-5 col-md-4">
+                <img
+                  className="w-100 mx-auto align-self-center"
+                  alt="loading"
+                  src="./loading.png"
+                />
+              </div>
+              <div className="col-7 col-md-8 align-self-center text-center fontb">
+                <h1>IGSAnalyzer</h1>
+                <p>free instagram analyzer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Card */}
+        <div className="card border-0 shadow mb-4">
+          <div className="card-body">
+            <div class="input-group">
+              {/* <div class="input-group-prepend">
+                <span
+                  class="input-group-text border-0"
+                  style={{
+                    backgroundColor: "#343a40",
+                    color: "#fcd734"
+                  }}
+                >
+                  @
+                </span>
+              </div> */}
+              <input
+                name="username"
+                type="text"
+                value={this.state.username}
+                class="form-control"
+                placeholder="Username"
+                onChange={this.handleInputChange}
+                style={{
+                  backgroundColor: "transparent",
+                  borderColor: "#000",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: "0",
+                  borderBottom: "#000 solid 1px"
+                }}
+              />
+              <div class="input-group-append">
+                <button
+                  onClick={this.fetchData}
+                  class="btn btn-outline-dark"
+                  type="button"
+                >
+                  Fetch
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Profile Card */}
+        <div
+          className="card shadow mb-4"
+          style={{
+            border: "none",
+            borderRadius: ".25rem",
+            borderTop: "6px solid",
+            borderImageSource:
+              "url('https://www.color-hex.com/palettes/44340.png')",
+            borderImageSlice: "60 30"
+          }}
+        >
+          <div className="card-body">
             <div>
               <br />
               <br />
@@ -120,8 +319,7 @@ export default class App extends React.Component {
                   backgroundColor: "",
                   backgroundImage:
                     "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)",
-                  filter: "blur(50px)"
-                  // WebkitFilter: "saturate(20%) blur(4x0px)"
+                  filter: "blur(40px)"
                 }}
               />
               <br />
@@ -137,7 +335,7 @@ export default class App extends React.Component {
                 <div
                   className="rounded-circle mx-auto"
                   style={{
-                    boxShadow: "0 0 4pt 3pt rgba(255,255,255,1)",
+                    boxShadow: "0 0 4pt 3pt rgba(51,51,51,0.2)",
                     backgroundSize: "cover",
                     backgroundImage:
                       "url('" +
@@ -153,33 +351,22 @@ export default class App extends React.Component {
                 </h2>
               </div>
               <br />
+              <blockquote class="blockquote text-center">
+                <p class="mb-0">
+                  {this.state.dataSource.graphql.user.biography}
+                </p>
+                <footer class="blockquote-footer">
+                  {this.state.dataSource.graphql.user.full_name} in{" "}
+                  <cite title="Source Title">instagram</cite>
+                </footer>
+              </blockquote>
             </div>
-            {/* Bio */}
-            <div className="row">
-              <div className="col text-center">
-                <blockquote class="blockquote">
-                  <p class="mb-0">
-                    {this.state.dataSource.graphql.user.biography}
-                  </p>
-                  <footer class="blockquote-footer">
-                    {this.state.dataSource.graphql.user.full_name} in{" "}
-                    <cite title="Source Title">instagram</cite>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
+          </div>
+        </div>
 
-            <br />
-
-            {/* Engagement */}
-            <div className="row">
-              <div className="col text-center">
-                <h1 className="mb-0">4.41%</h1>
-                <p>Engagement</p>
-              </div>
-            </div>
-
-            {/* Follower/Follow */}
+        {/* Followers / S */}
+        <div className="card border-0 shadow mb-4">
+          <div className="card-body">
             <div className="row">
               <div className="col text-center">
                 <div
@@ -211,7 +398,10 @@ export default class App extends React.Component {
               <div className="col text-center align-self-center">
                 <blockquote class="blockquote">
                   <h2 class="mb-0">
-                    {this.state.dataSource.graphql.user.edge_followed_by.count}
+                    {this.state.dataSource.graphql.user.edge_followed_by.count.toLocaleString(
+                      navigator.language,
+                      { minimumFractionDigits: 0 }
+                    )}
                   </h2>
                   <footer class="blockquote-footer text-dark">Follows</footer>
                 </blockquote>
@@ -240,7 +430,7 @@ export default class App extends React.Component {
                     color: "#fff",
                     top: "90px",
                     left: "50%",
-                    transform: "translate(-30%, 0%)",
+                    transform: "translate(-25%, 0%)",
                     position: "absolute"
                   }}
                 />
@@ -248,128 +438,103 @@ export default class App extends React.Component {
               <div className="col text-center align-self-center" dir="ltr">
                 <blockquote class="blockquote">
                   <h2 class="mb-0">
-                    {this.state.dataSource.graphql.user.edge_follow.count}
+                    {this.state.dataSource.graphql.user.edge_follow.count.toLocaleString(
+                      navigator.language,
+                      { minimumFractionDigits: 0 }
+                    )}
                   </h2>
                   <footer class="blockquote-footer text-dark">Follows</footer>
                 </blockquote>
               </div>
             </div>
-
-            <div className="row text-center">
-              <div className="col">
-                <h2>591,394</h2>
-                <p>Average Comments</p>
-                <img style={{ width: "64px", height: "64px" }} src="cc.png" />
-              </div>
-              <div className="col">
-                <h2>591,394</h2>
-                <p>Average Likes</p>
-                <img style={{ width: "64px", height: "64px" }} src="ll.png" />
-              </div>
-              <div className="col">
-                <h2>591,394</h2>
-                <p>Uploads</p>
-                <img style={{ width: "64px", height: "64px" }} src="uu.png" />
-              </div>
-            </div>
-            <br />
-            <div className="row text-center">
-              <div className="col">
-                <div className="card border-0 shadow">
-                  <div className="card-body">
-                    <h1>
-                      <big>$</big>12,000
-                    </h1>
-                    <p className="mb-0">per post</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br />
-            <div className="row text-center">
-              <div className="col">
-                <div className="card border-0 shadow">
-                  <div className="card-body">
-                    <AreaChart  data={this.state.chartdata} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            {/* TextBox */}
-            <div className="row">
-              <div className="col">
-                <div
-                  class="card rounded-0 shadow border-0"
-                  style={{
-                    backgroundColor: "#fdd835"
-                  }}
-                >
-                  <div class="card-body">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span
-                          class="input-group-text border-0"
-                          style={{
-                            backgroundColor: "#343a40",
-                            color: "#fcd734"
-                          }}
-                        >
-                          @
-                        </span>
-                      </div>
-                      <input
-                        name="username"
-                        type="text"
-                        value={this.state.username}
-                        class="form-control"
-                        placeholder="Username"
-                        onChange={this.handleInputChange}
-                        style={{
-                          backgroundColor: "transparent",
-                          borderColor: "#000",
-                          color: "#000"
-                        }}
-                      />
-                      <div class="input-group-append">
-                        <button
-                          onClick={this.fetchData}
-                          class="btn btn-dark"
-                          type="button"
-                        >
-                          Fetch
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br />
           </div>
         </div>
+
+        {/* Tiles */}
+        <div className="card border-0 shadow">
+          <div className="card-body">
+            <div className="row text-center">
+              <div className="col-6 col-md-4 mb-4">
+                <h1>soon</h1>
+                <p>Price / post</p>
+                <img
+                  style={{ width: "64px", height: "64px" }}
+                  src="iconmoney.png"
+                />
+              </div>
+              <div className="col-6 col-md-4 mb-4">
+                <h1>{this.state.totaleng.toFixed(2)}%</h1>
+                <p>Engagement</p>
+                <img
+                  style={{ width: "64px", height: "64px" }}
+                  src="iconengagement.png"
+                />
+              </div>
+              <div className="col-6 col-md-4 mb-4">
+                <h1>
+                  {parseInt(this.state.avgcomment.toFixed(0)).toLocaleString()}
+                </h1>
+                <p>Average Comments</p>
+                <img
+                  style={{ width: "64px", height: "64px" }}
+                  src="iconcomment.png"
+                />
+              </div>
+              <div className="col-6 col-md-4 mb-4">
+                <h1>
+                  {parseInt(this.state.avglike.toFixed(0)).toLocaleString()}
+                </h1>
+                <p>Average Likes</p>
+                <img
+                  style={{ width: "64px", height: "64px" }}
+                  src="iconlike2.png"
+                />
+              </div>
+              <div className="col-6 col-md-4 mb-4">
+                <h2>
+                  {this.state.dataSource.graphql.user.edge_owner_to_timeline_media.count.toLocaleString()}
+                </h2>
+                <p>Uploads</p>
+                <img
+                  style={{ width: "64px", height: "64px" }}
+                  src="iconmedia.png"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+        <div className="row text-center">
+          <div className="col">
+            <div className="card border-0 shadow">
+              <div className="card-body">
+                <Line
+                  options={this.state.LCChart.chartoption}
+                  data={this.state.LCChart.chartdata}
+                  legend={this.state.legend}
+                  height="256px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div className="row text-center">
+          <div className="col">
+            <div className="card border-0 shadow">
+              <div className="card-body">
+                <Bar
+                  options={this.state.LCEChart.chartoption}
+                  data={this.state.LCEChart.chartdata}
+                  legend={this.state.legend}
+                  height="256px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
       </div>
     );
   }
