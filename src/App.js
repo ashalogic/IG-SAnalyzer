@@ -2,10 +2,9 @@ import React from "react";
 import { Line, Bar } from "react-chartjs-2";
 
 import "./App.css";
-import TitleCard from "./TitleCard";
-import NavBar from "./NavBar";
-import ProfileCard from "./ProfileCard";
-// import Navbar from "./navbar";
+import TitleCard from "TitleCard";
+import NavBar from "NavBar";
+import ProfileCard from "ProfileCard";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -429,7 +428,7 @@ export default class App extends React.Component {
             </div>
           </div>
         </div>
-        
+
         <br />
         <div className="row text-center">
           <div className="col">
