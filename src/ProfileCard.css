@@ -1,0 +1,35 @@
+.profilecard-style {
+  border: none;
+  border-radius: 0.25rem;
+  border-top: 6px solid;
+  border-image-source: url("https://www.color-hex.com/palettes/44340.png");
+  border-image-slice: 60 30;
+}
+.profilecard-background-style {
+  width: 128px;
+  height: 192px;
+  background-size: cover;
+  background-image: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  filter: saturate(180%) blur(60px);
+}
+.profilecard-image-text-box-style {
+  color: rgba(51, 51, 51, 0.6);
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  transform: translate(-50%, 0%);
+}
+.profilecard-image-style {
+  box-shadow: 0 0 4pt 3pt rgba(51, 51, 51, 0.2);
+  background-size: cover;
+  height: 192px;
+  width: 192px;
+  z-index: 9999 !important;
+}

@@ -2,6 +2,9 @@ import React from "react";
 import { Line, Bar } from "react-chartjs-2";
 
 import "./App.css";
+import TitleCard from "./TitleCard";
+import NavBar from "./NavBar";
+import ProfileCard from "./ProfileCard";
 // import Navbar from "./navbar";
 
 export default class App extends React.Component {
@@ -214,41 +217,13 @@ export default class App extends React.Component {
 
     return (
       <div className="h-100 col col-md-6 col-lg-6 mx-auto">
-        <nav
-          class="navbar navbar-light fixed-top shadow-sm"
-          style={{
-            WebkitBackdropFilter: "saturate(180%) blur(20px)",
-            backdropFilter: "saturate(180%) blur(10px)",
-            backgroundColor: "rgba(255,255,255,0.7)"
-          }}
-        >
-          <span class="navbar-brand mb-0 h1 fontc">IGSAnalyzer</span>
-        </nav>
-
-        <br />
-
+        {/* NavBar */}
+        <NavBar />
         <br />
         <br />
-
+        <br />
         {/* Title Card */}
-        <div className="card border-0 shadow mb-4">
-          <div className="card-body">
-            <div dir="rtl" className="row">
-              <div className="col-5 col-md-4">
-                <img
-                  className="w-100 mx-auto align-self-center"
-                  alt="loading"
-                  src="./loading.png"
-                />
-              </div>
-              <div className="col-7 col-md-8 align-self-center text-center fontb">
-                <h1>IGSAnalyzer</h1>
-                <p>free instagram analyzer</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <TitleCard />
         {/* Search Card */}
         <div className="card border-0 shadow mb-4">
           <div className="card-body">
@@ -292,77 +267,12 @@ export default class App extends React.Component {
             </div>
           </div>
         </div>
-
         {/* Profile Card */}
-        <div
-          className="card shadow mb-4"
-          style={{
-            border: "none",
-            borderRadius: ".25rem",
-            borderTop: "6px solid",
-            borderImageSource:
-              "url('https://www.color-hex.com/palettes/44340.png')",
-            borderImageSlice: "60 30"
-          }}
-        >
-          <div className="card-body">
-            <div>
-              <br />
-              <br />
-              <br />
-              <div
-                className="mx-auto"
-                style={{
-                  width: "192px",
-                  height: "192px",
-                  backgroundSize: "cover",
-                  backgroundColor: "",
-                  backgroundImage:
-                    "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)",
-                  filter: "blur(40px)"
-                }}
-              />
-              <br />
-              <div
-                className="text-center"
-                style={{
-                  left: "50%",
-                  position: "absolute",
-                  transform: "translate(-50%, 0%)",
-                  top: "32px"
-                }}
-              >
-                <div
-                  className="rounded-circle mx-auto"
-                  style={{
-                    boxShadow: "0 0 4pt 3pt rgba(51,51,51,0.2)",
-                    backgroundSize: "cover",
-                    backgroundImage:
-                      "url('" +
-                      this.state.dataSource.graphql.user.profile_pic_url_hd +
-                      "')",
-                    height: "192px",
-                    width: "192px"
-                  }}
-                />
-                <br />
-                <h2 style={{ color: "rgba(51,51,51,0.6)" }}>
-                  {this.state.dataSource.graphql.user.full_name}
-                </h2>
-              </div>
-              <br />
-              <blockquote class="blockquote text-center">
-                <p class="mb-0">
-                  {this.state.dataSource.graphql.user.biography}
-                </p>
-                <footer class="blockquote-footer">
-                  {this.state.dataSource.graphql.user.full_name} in{" "}
-                  <cite title="Source Title">instagram</cite>
-                </footer>
-              </blockquote>
-            </div>
-          </div>
-        </div>
+        <ProfileCard
+          fullname={this.state.dataSource.graphql.user.full_name}
+          picture={this.state.dataSource.graphql.user.profile_pic_url_hd}
+          bio={this.state.dataSource.graphql.user.biography}
+        />
 
         {/* Followers / S */}
         <div className="card border-0 shadow mb-4">
@@ -519,6 +429,7 @@ export default class App extends React.Component {
             </div>
           </div>
         </div>
+        
         <br />
         <div className="row text-center">
           <div className="col">
