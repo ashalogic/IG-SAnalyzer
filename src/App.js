@@ -1,10 +1,10 @@
 import React from "react";
 import { Line, Bar } from "react-chartjs-2";
 
-import "./App.css";
-import TitleCard from "TitleCard";
-import NavBar from "NavBar";
-import ProfileCard from "ProfileCard";
+import "../src/App.css";
+import NavBar from "../src/NavBar";
+import TitleCard from "../src/TitleCard";
+import ProfileCard from "../src/ProfileCard";
 
 export default class App extends React.Component {
   constructor(props) {
