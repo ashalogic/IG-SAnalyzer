@@ -1,11 +1,16 @@
 import React from "react";
-import { Line, Bar } from "react-chartjs-2";
+import ReactWordcloud from "react-wordcloud";
+import { Line, Bar, Pie } from "react-chartjs-2";
 
 import "./App.css";
 
 import NavBar from "./Cards/NavBar";
 import TitleCard from "./Cards/TitleCard";
-import ProfileCard from "./Cards/ProfileCard";
+// import ProfileCard from "./Cards/ProfileCard";
+import ProfileCardGlass from "./Cards/ProfileCardGlass";
+import FeatureCard from "./Cards/FeatureCard";
+
+import { ResponsiveCalendarCanvas } from "@nivo/calendar";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -37,19 +42,61 @@ export default class App extends React.Component {
         var Likes = [];
         var Dates = [];
         var Comments = [];
+        var CalenderChartData = [];
+        var MTv = 0;
+        var MTi = 0;
+        var MTc = 0;
+        var words = [];
 
         const followers_count =
           responseJson.graphql.user.edge_followed_by.count;
 
         responseJson.graphql.user.edge_owner_to_timeline_media.edges.map(x => {
-          Dates.push(x.node.taken_at_timestamp);
-          Likes.push(x.node.edge_liked_by.count);
-          Engs.push(
+          if (x.node.edge_media_to_caption.edges[0] !== undefined) {
+            String(x.node.edge_media_to_caption.edges[0].node.text)
+              .split(" ")
+              .forEach(w => {
+                words.push(w);
+              });
+          }
+
+          switch (x.node.__typename) {
+            case "GraphImage":
+              MTi++;
+              break;
+            case "GraphVideo":
+              MTv++;
+              break;
+            case "GraphSidecar":
+              MTc++;
+              break;
+            default:
+              break;
+          }
+
+          //Dates
+          var d = new Date(Number(x.node.taken_at_timestamp + "000"));
+          var mm = String(d.getMonth()).padStart(2, "0");
+          var dd = String(d.getDate()).padStart(2, "0");
+          var yy = d.getFullYear();
+
+          //Engs
+          var e =
             ((x.node.edge_liked_by.count + x.node.edge_media_to_comment.count) /
               followers_count) *
-              100
-          );
+            100;
+
+          Dates.push(d.toLocaleDateString());
+          Engs.push(e);
+
+          Likes.push(x.node.edge_liked_by.count);
           Comments.push(x.node.edge_media_to_comment.count);
+
+          CalenderChartData.push({
+            day: yy + "-" + mm + "-" + dd,
+            value: e
+          });
+          return null;
         });
 
         //Calc TotalEngagement
@@ -87,7 +134,7 @@ export default class App extends React.Component {
             stacked: false,
             title: {
               display: true,
-              text: "Like & Comment & Engagement through time"
+              text: "Like & Comment through time"
             },
             scales: {
               yAxes: [
@@ -136,7 +183,7 @@ export default class App extends React.Component {
               },
               {
                 type: "line",
-                // fill:false,
+                fill: false,
                 label: "Engagement",
                 backgroundColor: "rgba(150,47,191,0.4)",
                 borderColor: "#962fbf",
@@ -159,7 +206,12 @@ export default class App extends React.Component {
                   type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
                   display: true,
                   position: "left",
-                  id: "y-axis-1"
+                  id: "y-axis-1",
+
+                  // grid line settings
+                  gridLines: {
+                    drawOnChartArea: false // only want the grid lines for one axis to show up
+                  }
                 },
                 {
                   type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
@@ -177,11 +229,75 @@ export default class App extends React.Component {
           }
         };
 
+        //Like Comment Eng Per Post Chart
+        var MTPChart = {
+          chartdata: {
+            labels: ["Video", "Picture", "Carousel"],
+            datasets: [
+              {
+                data: [MTi, MTv, MTc],
+                backgroundColor: ["#E1306C", "#405DE6", "#F77737"],
+                labels: "Media Type"
+              }
+            ]
+          },
+          chartoption: {
+            responsive: true
+          }
+        };
+
+        const distinct = (value, index, self) => {
+          return self.indexOf(value) === index;
+        };
+
+        console.log(words.filter(distinct));
+        var wordss = [
+          {
+            text: "told",
+            value: 64
+          },
+          {
+            text: "mistake",
+            value: 11
+          },
+          {
+            text: "thought",
+            value: 16
+          },
+          {
+            text: "bad",
+            value: 17
+          },
+          {
+            text: "correct",
+            value: 10
+          },
+          {
+            text: "day",
+            value: 54
+          },
+          {
+            text: "prescription",
+            value: 12
+          },
+          {
+            text: "time",
+            value: 77
+          },
+          {
+            text: "thing",
+            value: 45
+          }
+        ];
         this.setState(
           {
             isLoading: false,
             LCChart: LCChart,
             LCEChart: LCEChart,
+            MTPChart: MTPChart,
+            // words: words.filter(distinct),
+            words: wordss,
+            CalenderChartData: CalenderChartData,
             dataSource: responseJson,
             totaleng: TotalEngagement,
             avglike: Likes.reduce((a, b) => a + b, 0) / 12,
@@ -216,21 +332,149 @@ export default class App extends React.Component {
     }
 
     return (
-      <div className="h-100 col col-md-6 col-lg-6 mx-auto">
-        {/* NavBar */}
+      <div className="container">
         <NavBar />
         <br />
         <br />
         <br />
+        <div className="row">
+          <div className="col-md-4">
+            <ProfileCardGlass
+              fullname={this.state.dataSource.graphql.user.full_name}
+              picture={this.state.dataSource.graphql.user.profile_pic_url_hd}
+              bio={this.state.dataSource.graphql.user.biography}
+            />
+            <TitleCard />
+          </div>
+          <div className="col-md-8">
+            <div className="row">
+              <div className="col-6 col-md-6">
+                <FeatureCard
+                  icon="iconmoney.png"
+                  title="Value"
+                  value="$52,200"
+                  bgcolor="#405DE6"
+                  kir={this.state.dataSource.graphql.user.profile_pic_url_hd}
+                />
+              </div>
+              <div className="col-6 col-md-6">
+                <FeatureCard
+                  icon="iconengagement.png"
+                  title="Engagement"
+                  value={this.state.totaleng.toFixed(2) + "%"}
+                  kir={this.state.dataSource.graphql.user.profile_pic_url_hd}
+                  bgcolor="#833AB4"
+                />
+              </div>
+              <div className="col-6 col-md-6">
+                <FeatureCard
+                  icon="iconmoney.png"
+                  title="Avr Comments"
+                  value={parseInt(
+                    this.state.avgcomment.toFixed(0)
+                  ).toLocaleString()}
+                  kir={this.state.dataSource.graphql.user.profile_pic_url_hd}
+                  bgcolor="#E1306C"
+                />
+              </div>
+              <div className="col-6 col-md-6">
+                <FeatureCard
+                  icon="iconlike2.png"
+                  title="Avr Likes"
+                  value={parseInt(
+                    this.state.avglike.toFixed(0)
+                  ).toLocaleString()}
+                  kir={this.state.dataSource.graphql.user.profile_pic_url_hd}
+                  bgcolor="#FFDC80"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card card-2 border-0">
+              <div className="card-body">
+                <Line
+                  options={this.state.LCChart.chartoption}
+                  data={this.state.LCChart.chartdata}
+                  legend={this.state.legend}
+                  height={192}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card card-2 border-0">
+              <div className="card-body">
+                <Bar
+                  options={this.state.LCEChart.chartoption}
+                  data={this.state.LCEChart.chartdata}
+                  legend={this.state.legend}
+                  height={192}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-12">
+            <div className="card card-2 border-0 mt-4">
+              <div className="card-body" style={{ height: "192px" }}>
+                <ResponsiveCalendarCanvas
+                  data={this.state.CalenderChartData}
+                  from={this.state.CalenderChartData[0].day}
+                  to={this.state.CalenderChartData[11].day}
+                  emptyColor="#eeeeee"
+                  colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
+                  margin={{ top: 20, right: 40, bottom: 20, left: 40 }}
+                  yearSpacing={10}
+                  monthBorderColor="#ffffff"
+                  dayBorderWidth={2}
+                  dayBorderColor="#ffffff"
+                  legends={[
+                    {
+                      anchor: "bottom-right",
+                      direction: "row",
+                      translateY: 32,
+                      itemCount: 4,
+                      itemWidth: 42,
+                      itemHeight: 36,
+                      itemsSpacing: 14,
+                      itemDirection: "right-to-left"
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card card-2 border-0 mt-4">
+              <div className="card-body">
+                <Pie
+                  options={this.state.MTPChart.chartoption}
+                  data={this.state.MTPChart.chartdata}
+                  legend={this.state.legend}
+                  height={192}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card card-2 border-0 mt-4">
+              <div className="card-body">
+                <ReactWordcloud words={this.state.words} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* NavBar */}
+
         {/* Title Card */}
-        <TitleCard />
         {/* Search Card */}
-        <div className="card border-0 shadow mb-4">
+        {/* <div className="card border-0 shadow mb-4">
           <div className="card-body">
-            <div class="input-group">
-              {/* <div class="input-group-prepend">
+            <div className="input-group">
+              <div className="input-group-prepend">
                 <span
-                  class="input-group-text border-0"
+                  className="input-group-text border-0"
                   style={{
                     backgroundColor: "#343a40",
                     color: "#fcd734"
@@ -238,12 +482,12 @@ export default class App extends React.Component {
                 >
                   @
                 </span>
-              </div> */}
+              </div>
               <input
                 name="username"
                 type="text"
                 value={this.state.username}
-                class="form-control"
+                className="form-control"
                 placeholder="Username"
                 onChange={this.handleInputChange}
                 style={{
@@ -255,10 +499,10 @@ export default class App extends React.Component {
                   borderBottom: "#000 solid 1px"
                 }}
               />
-              <div class="input-group-append">
+              <div className="input-group-append">
                 <button
                   onClick={this.fetchData}
-                  class="btn btn-outline-dark"
+                  className="btn btn-outline-dark"
                   type="button"
                 >
                   Fetch
@@ -266,151 +510,29 @@ export default class App extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* Profile Card */}
-        <ProfileCard
+        {/* <ProfileCard
           fullname={this.state.dataSource.graphql.user.full_name}
           picture={this.state.dataSource.graphql.user.profile_pic_url_hd}
           bio={this.state.dataSource.graphql.user.biography}
-        />
+        /> */}
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        {/* <ProfileCardGlass /> */}
 
         {/* Followers / S */}
-        <div className="card border-0 shadow mb-4">
-          <div className="card-body">
-            <div className="row">
-              <div className="col text-center">
-                <div
-                  style={{
-                    // filter: "blur(10px)",
-                    backgroundSize: "contain",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: "url('./kiss.png')",
-                    height: "16em"
-                  }}
-                />
-                <img
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Tooltip on top"
-                  src="./followers.png"
-                  style={{
-                    height: "64px",
-                    width: "64px",
-                    color: "#fff",
-                    top: "90px",
-                    left: "50%",
-                    transform: "translate(-30%, 0%)",
-                    position: "absolute"
-                  }}
-                />
-              </div>
-              <div className="col text-center align-self-center">
-                <blockquote class="blockquote">
-                  <h2 class="mb-0">
-                    {this.state.dataSource.graphql.user.edge_followed_by.count.toLocaleString(
-                      navigator.language,
-                      { minimumFractionDigits: 0 }
-                    )}
-                  </h2>
-                  <footer class="blockquote-footer text-dark">Follows</footer>
-                </blockquote>
-              </div>
-            </div>
-            <div dir="rtl" className="row" style={{ marginTop: "-80px" }}>
-              <div className="col text-center">
-                <div
-                  style={{
-                    // filter: "blur(1px)",
-                    backgroundSize: "contain",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage: "url('./kiss.png')",
-                    height: "16em"
-                  }}
-                />
-                <img
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Tooltip on top"
-                  src="./follow.png"
-                  style={{
-                    height: "64px",
-                    width: "64px",
-                    color: "#fff",
-                    top: "90px",
-                    left: "50%",
-                    transform: "translate(-25%, 0%)",
-                    position: "absolute"
-                  }}
-                />
-              </div>
-              <div className="col text-center align-self-center" dir="ltr">
-                <blockquote class="blockquote">
-                  <h2 class="mb-0">
-                    {this.state.dataSource.graphql.user.edge_follow.count.toLocaleString(
-                      navigator.language,
-                      { minimumFractionDigits: 0 }
-                    )}
-                  </h2>
-                  <footer class="blockquote-footer text-dark">Follows</footer>
-                </blockquote>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Tiles */}
-        <div className="card border-0 shadow">
-          <div className="card-body">
-            <div className="row text-center">
-              <div className="col-6 col-md-4 mb-4">
-                <h1>soon</h1>
-                <p>Price / post</p>
-                <img
-                  style={{ width: "64px", height: "64px" }}
-                  src="iconmoney.png"
-                />
-              </div>
-              <div className="col-6 col-md-4 mb-4">
-                <h1>{this.state.totaleng.toFixed(2)}%</h1>
-                <p>Engagement</p>
-                <img
-                  style={{ width: "64px", height: "64px" }}
-                  src="iconengagement.png"
-                />
-              </div>
-              <div className="col-6 col-md-4 mb-4">
-                <h1>
-                  {parseInt(this.state.avgcomment.toFixed(0)).toLocaleString()}
-                </h1>
-                <p>Average Comments</p>
-                <img
-                  style={{ width: "64px", height: "64px" }}
-                  src="iconcomment.png"
-                />
-              </div>
-              <div className="col-6 col-md-4 mb-4">
-                <h1>
-                  {parseInt(this.state.avglike.toFixed(0)).toLocaleString()}
-                </h1>
-                <p>Average Likes</p>
-                <img
-                  style={{ width: "64px", height: "64px" }}
-                  src="iconlike2.png"
-                />
-              </div>
-              <div className="col-6 col-md-4 mb-4">
-                <h2>
-                  {this.state.dataSource.graphql.user.edge_owner_to_timeline_media.count.toLocaleString()}
-                </h2>
-                <p>Uploads</p>
-                <img
-                  style={{ width: "64px", height: "64px" }}
-                  src="iconmedia.png"
-                />
-              </div>
-            </div>
+
+        {/* <br />
+        <div className="row text-center">
+          <div className="col">
+            
           </div>
         </div>
 
@@ -419,33 +541,12 @@ export default class App extends React.Component {
           <div className="col">
             <div className="card border-0 shadow">
               <div className="card-body">
-                <Line
-                  options={this.state.LCChart.chartoption}
-                  data={this.state.LCChart.chartdata}
-                  legend={this.state.legend}
-                  height="256px"
-                />
+                
               </div>
             </div>
           </div>
         </div>
-
-        <br />
-        <div className="row text-center">
-          <div className="col">
-            <div className="card border-0 shadow">
-              <div className="card-body">
-                <Bar
-                  options={this.state.LCEChart.chartoption}
-                  data={this.state.LCEChart.chartdata}
-                  legend={this.state.legend}
-                  height="256px"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <br />
+        <br /> */}
       </div>
     );
   }
