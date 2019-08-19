@@ -469,7 +469,7 @@ export default class App extends React.Component {
 
         {/* Title Card */}
         {/* Search Card */}
-        {/* <div className="card border-0 shadow mb-4">
+         <div className="card border-0 shadow mb-4">
           <div className="card-body">
             <div className="input-group">
               <div className="input-group-prepend">
@@ -510,7 +510,7 @@ export default class App extends React.Component {
               </div>
             </div>
           </div>
-        </div> */}
+        </div> 
         {/* Profile Card */}
         {/* <ProfileCard
           fullname={this.state.dataSource.graphql.user.full_name}
