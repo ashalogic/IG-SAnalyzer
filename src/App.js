@@ -1862,7 +1862,8 @@ export default class App extends React.Component {
             </div>
           </div>
         </div>
-        *{/* NavBar */}
+        
+        {/* NavBar */}
         {/* Title Card */}
         {/* Search Card */}
         {/* <div className="card border-0 shadow mb-4">
