@@ -41,9 +41,13 @@
     crossorigin="anonymous"></script>
 
   <script>
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    })
+    $(document).ready(function () {
+      function showpanel() {
+        $('[data-toggle="tooltip"]').delay(10000).tooltip();
+        // console.log("ready!");
+      }
+      setTimeout(showpanel, 4000)
+    });
   </script>
 </body>
 

@@ -14,8 +14,6 @@ function TopPostEmbed(props) {
     };
   });
   Engagements.sort((a, b) => (a.engagement < b.engagement ? 1 : -1));
-
-  console.log(Engagements);
   return (
     <InstagramEmbed
       className=""

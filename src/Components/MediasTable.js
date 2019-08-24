@@ -35,11 +35,15 @@ function MediasTable(props) {
               title={
                 post.node.edge_media_to_caption.edges[0]
                   ? post.node.edge_media_to_caption.edges[0].node.text
-                  : "no comment"
+                  : "no caption"
               }
             >
-              {post.node.edge_media_to_caption.edges[0].node.text.slice(0, 20) +
-                "..."}
+              {post.node.edge_media_to_caption.edges[0]
+                ? post.node.edge_media_to_caption.edges[0].node.text.slice(
+                    0,
+                    20
+                  ) + "..."
+                : "no caption"}
             </span>
           </div>
           <div className="col-4 col-md-2 align-self-center text-center mt-2">

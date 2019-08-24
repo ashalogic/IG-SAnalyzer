@@ -3,8 +3,8 @@ import Feature from "../Cards/Feature";
 
 function FeaturesTable(props) {
   var ISPrivate = props.data.Account.is_private;
-  var ISVerified = props.data.Account.is_verified;
-  var Following = props.data.Account.edge_follow.count;
+  // var ISVerified = props.data.Account.is_verified;
+  // var Following = props.data.Account.edge_follow.count;
   var Followers = props.data.Account.edge_followed_by.count;
   // var ISBusiness_account = props.data.Account.is_business_account;
   // var Bio = props.data.Account.edge_owner_to_timeline_media.count;

@@ -23,7 +23,7 @@ export default class App extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    // this.fetchData = this.fetchData.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleInputChange(event) {
@@ -35,35 +35,17 @@ export default class App extends React.Component {
     });
   }
 
-  // fetchData(event) {
-  //   return
-
-  // this.setState(
-  //   {
-  //     isLoading: false,
-  //     Result: Result
-  //     // LCChart: LCChart,
-  //     // LCEChart: LCEChart,
-  //     // MTPChart: MTPChart,
-  //     // words: cloudwordss,
-  //     // CalenderChartData: CalenderChartData,
-  //     // dataSource: responseJson,
-  //     // totaleng: TotalEngagement,
-  //     // avglike: Likes.reduce((a, b) => a + b, 0) / Medias.length,
-  //     // avgcomment: Comments.reduce((a, b) => a + b, 0) / Medias.length
-  //   },
-  //   function() {}
-  // );
-  // console.log(Result);
-  // const distinct = (value, index, self) => {
-  //   return self.indexOf(value) === index;
-  // };
-  // console.log(words.filter(distinct));
-  // }
+  handleClick(event) {
+    FetchData(this.state.username).then(x => {
+      console.log(x);
+      this.setState({ Result: x });
+    });
+  }
 
   componentDidMount() {
     return FetchData(this.state.username).then(x => {
       this.setState({ isLoading: false, Result: x }, function() {});
+      console.log("WOW")
     });
   }
 
@@ -130,7 +112,7 @@ export default class App extends React.Component {
                   />
                   <div className="input-group-append">
                     <button
-                      onClick={this.fetchData}
+                      onClick={this.handleClick}
                       className="btn btn-outline-dark"
                       type="button"
                     >
@@ -158,11 +140,13 @@ export default class App extends React.Component {
         <br />
         <div className="row ">
           <div className="col-md-6 mb-4">
-          <h4 className="Righteous">Like & Comment through time</h4>
+            <h4 className="Righteous">Like & Comment through time</h4>
             <LikeCommentBC data={this.state.Result} />
           </div>
           <div className="col-md-6 mb-4">
-            <h4 className="Righteous">Like & Comment & Engagement through time</h4>
+            <h4 className="Righteous">
+              Like & Comment & Engagement through time
+            </h4>
             <LikeCommentEngagementBLC data={this.state.Result} />
           </div>
           <div className="col-md-12 mb-4">
@@ -178,11 +162,11 @@ export default class App extends React.Component {
             <CloudWords data={this.state.Result} />
           </div>
           <div className="col-md-6 mb-4 align-self-center">
-            <h4 className="Righteous">Top 10 Mentions</h4>
+            <h4 className="Righteous">Top 5 Mentions</h4>
             <MentionsTable data={this.state.Result.Medias} />
           </div>
           <div className="col-md-6 mb-4 align-self-center">
-            <h4 className="Righteous">Top 10 Hashtags</h4>
+            <h4 className="Righteous">Top 5 Hashtags</h4>
             <HashtagsTable data={this.state.Result.Medias} />
           </div>
           <div className="col-md-4 mb-4 align-self-center">
@@ -191,7 +175,7 @@ export default class App extends React.Component {
           </div>
           <div className="col-md-8 mb-4 align-self-center" />
           <div className="col-md-12">
-            <h4 className="Righteous">Last 10 Post</h4>
+            <h4 className="Righteous">Last 12 Post</h4>
             <MediasTable data={this.state.Result.Medias} />
           </div>
         </div>
