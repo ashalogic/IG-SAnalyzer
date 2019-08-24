@@ -1,5 +1,5 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 //Set Chart Option & Data structure
 var Chart = {
@@ -14,7 +14,20 @@ var Chart = {
     ]
   },
   option: {
-    responsive: true
+    responsive: true,
+    title: {
+      fontFamily: "Righteous",
+      display: false,
+      text: "Medias Types"
+    },
+    tooltips: {
+      titleFontFamily: "Righteous"
+    },
+    legend: {
+      labels: {
+        fontFamily: "Righteous"
+      }
+    }
   }
 };
 
@@ -48,7 +61,7 @@ function MediasTypesPC(props) {
       }}
     >
       <div className="card-body">
-        <Pie
+        <Doughnut
           options={Chart.option}
           data={Chart.data}
           // legend={this.state.legend}

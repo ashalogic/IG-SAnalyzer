@@ -38,8 +38,14 @@ var Chart = {
     hoverMode: "index",
     stacked: false,
     title: {
-      display: true,
+      fontFamily: "Righteous",
+      display: false,
       text: "Like & Comment & Engagement through time"
+    },
+    legend: {
+      labels: {
+        fontFamily: "Righteous"
+      }
     },
     scales: {
       yAxes: [

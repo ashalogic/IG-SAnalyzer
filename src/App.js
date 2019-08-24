@@ -9,6 +9,10 @@ import MediasTypesPC from "./Components/MediasTypesPC";
 import EngagementsCalander from "./Components/EngagementsCalander";
 import LikeCommentEngagementBLC from "./Components/LikeCommentEngagementBLC";
 import CloudWords from "./Components/CloudWords";
+import MediasTable from "./Components/MediasTable";
+import MentionsTable from "./Components/MentionsTable";
+import HashtagsTable from "./Components/HashtagsTable";
+import TopPostEmbed from "./Components/TopPostEmbed";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -140,7 +144,7 @@ export default class App extends React.Component {
         </div>
         <br />
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-4 align-self-center">
             <ProfileCardv2
               bio={this.state.Result.Account.biography}
               fullname={this.state.Result.Account.full_name}
@@ -154,19 +158,41 @@ export default class App extends React.Component {
         <br />
         <div className="row ">
           <div className="col-md-6 mb-4">
+          <h4 className="Righteous">Like & Comment through time</h4>
             <LikeCommentBC data={this.state.Result} />
           </div>
           <div className="col-md-6 mb-4">
+            <h4 className="Righteous">Like & Comment & Engagement through time</h4>
             <LikeCommentEngagementBLC data={this.state.Result} />
           </div>
           <div className="col-md-12 mb-4">
+            <h4 className="Righteous">Engagement Calander</h4>
             <EngagementsCalander data={this.state.Result} />
           </div>
           <div className="col-md-6 mb-4">
+            <h4 className="Righteous">Media Types</h4>
             <MediasTypesPC data={this.state.Result} />
           </div>
           <div className="col-md-6 mb-4 align-self-center">
+            <h4 className="Righteous">Top Words</h4>
             <CloudWords data={this.state.Result} />
+          </div>
+          <div className="col-md-6 mb-4 align-self-center">
+            <h4 className="Righteous">Top 10 Mentions</h4>
+            <MentionsTable data={this.state.Result.Medias} />
+          </div>
+          <div className="col-md-6 mb-4 align-self-center">
+            <h4 className="Righteous">Top 10 Hashtags</h4>
+            <HashtagsTable data={this.state.Result.Medias} />
+          </div>
+          <div className="col-md-4 mb-4 align-self-center">
+            <h4 className="Righteous">Top Post</h4>
+            <TopPostEmbed data={this.state.Result} />
+          </div>
+          <div className="col-md-8 mb-4 align-self-center" />
+          <div className="col-md-12">
+            <h4 className="Righteous">Last 10 Post</h4>
+            <MediasTable data={this.state.Result.Medias} />
           </div>
         </div>
       </div>

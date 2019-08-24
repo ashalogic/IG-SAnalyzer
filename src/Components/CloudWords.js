@@ -1514,7 +1514,7 @@ function CloudWords(props) {
             !persianstopwrods.includes(normalize(word.trim())) &&
             !englishstopwords.includes(word.trim().toLowerCase())
           ) {
-            captionrealwords.push(word.trim());
+            captionrealwords.push(word.trim().toLowerCase());
           }
         }
       });
@@ -1553,7 +1553,6 @@ function CloudWords(props) {
       });
     }
   });
-  console.log(cloudwords);
 
   return (
     <div

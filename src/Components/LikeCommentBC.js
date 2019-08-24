@@ -8,6 +8,7 @@ var Chart = {
     datasets: [
       {
         label: "Like",
+        // fill: false,
         backgroundColor: "rgba(250,126,30,0.4)",
         borderColor: "#fa7e1e",
         data: null,
@@ -15,6 +16,7 @@ var Chart = {
       },
       {
         label: "Comment",
+        // fill: false,
         backgroundColor: "rgba(214,41,118,0.4)",
         borderColor: "#d62976",
         data: null,
@@ -27,8 +29,14 @@ var Chart = {
     hoverMode: "index",
     stacked: false,
     title: {
-      display: true,
+      fontFamily: "Righteous",
+      display: false,
       text: "Like & Comment through time"
+    },
+    legend: {
+      labels: {
+        fontFamily: "Righteous"
+      }
     },
     scales: {
       yAxes: [
