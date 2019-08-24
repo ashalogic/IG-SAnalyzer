@@ -3,7 +3,7 @@ import React from "react";
 
 function FeatureCard(props) {
   return (
-    <div className="col-6 col-md-3 text-center p-4">
+    <div className="col-6 col-md-3 text-center mb-2">
       <img
         alt={props.icon}
         className="mx-autop-1"
@@ -14,8 +14,8 @@ function FeatureCard(props) {
           height: "64px"
         }}
       />
-      <h5 className="Righteous text-center mt-3 mb-2">{props.title}</h5>
-      <h3 className="text-center">{props.value}</h3>
+      <p className="Righteous lead text-center">{props.title}</p>
+      <h4 className="text-center">{props.value}</h4>
     </div>
   );
 }
