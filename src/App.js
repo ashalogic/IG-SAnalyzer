@@ -22,8 +22,9 @@ export default class App extends React.Component {
       username: "golfarahani"
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
+    // this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.usernametextInput = React.createRef();
   }
 
   handleInputChange(event) {
@@ -36,16 +37,15 @@ export default class App extends React.Component {
   }
 
   handleClick(event) {
-    FetchData(this.state.username).then(x => {
-      console.log(x);
+    FetchData(String(this.usernametextInput.current.value)).then(x => {
       this.setState({ Result: x });
     });
   }
 
   componentDidMount() {
-    return FetchData(this.state.username).then(x => {
+    return FetchData("instagram").then(x => {
       this.setState({ isLoading: false, Result: x }, function() {});
-      console.log("WOW")
+      // console.log("WOW")
     });
   }
 
@@ -95,12 +95,12 @@ export default class App extends React.Component {
                     </span>
                   </div>
                   <input
-                    name="username"
+                    // name="username"
                     type="text"
-                    value={this.state.username}
+                    // value={this.state.username}
                     className="form-control"
                     placeholder="Username"
-                    onChange={this.handleInputChange}
+                    // onChange={this.handleInputChange}
                     style={{
                       backgroundColor: "transparent",
                       borderColor: "#000",
@@ -109,6 +109,7 @@ export default class App extends React.Component {
                       borderRadius: "0",
                       borderBottom: "#000 solid 1px"
                     }}
+                    ref={this.usernametextInput}
                   />
                   <div className="input-group-append">
                     <button
@@ -144,9 +145,7 @@ export default class App extends React.Component {
             <LikeCommentBC data={this.state.Result} />
           </div>
           <div className="col-md-6 mb-4">
-            <h4 className="Righteous">
-              Like & Comment & Engagement through time
-            </h4>
+            <h4 className="Righteous">Like,Comment, Engagement through time</h4>
             <LikeCommentEngagementBLC data={this.state.Result} />
           </div>
           <div className="col-md-12 mb-4">

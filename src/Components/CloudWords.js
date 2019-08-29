@@ -1554,6 +1554,9 @@ function CloudWords(props) {
     }
   });
 
+  cloudwords.sort((a, b) => (a.value < b.value ? 1 : -1));
+  cloudwords = cloudwords.splice(0, 100);
+
   return (
     <div
       className="card igs-card card-2 border-0"
