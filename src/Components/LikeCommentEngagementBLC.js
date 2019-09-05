@@ -116,7 +116,7 @@ function LikeCommentEngagementBLC(props) {
           options={Chart.option}
           data={Chart.data}
           // legend={Chart.data}
-          height={256}
+          // height={256}
         />
       </div>
     </div>

@@ -92,7 +92,7 @@ function LikeCommentBC(props) {
           options={Chart.option}
           data={Chart.data}
           //   legend={this.state.legend}
-          height={256}
+          // height={256}
         />
       </div>
     </div>

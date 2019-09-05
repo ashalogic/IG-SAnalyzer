@@ -30,18 +30,18 @@ function FeaturesTable(props) {
       className="card igs-card card-2 border-0"
       style={{
         // backgroundColor: "rgba(227,227,227,0.7)",
-        backgroundColor: "unset",
-        backdropFilter: "saturate(80%) blur(4px)"
+        backgroundColor: "#fff"
+        // backdropFilter: "saturate(80%) blur(4px)"
       }}
     >
-      <div className="card-body">
+      <div className="card-body p-1 pt-4">
         <div className="row">
           {ISPrivate ? (
             <Feature icon="ico/private-color.png" title="Private" value=":(" />
           ) : null}
           <Feature
             icon="ico/social-engagement-color.png"
-            title="Engagement"
+            title="Impression"
             value={TotalEngagement.toFixed(2) + "%"}
           />
           <Feature
@@ -51,12 +51,12 @@ function FeaturesTable(props) {
           />
           <Feature
             icon="ico/social-media-like-color.png"
-            title="Likes/p"
+            title="Likes"
             value={parseInt(AverageLikes.toFixed(0)).toLocaleString()}
           />
           <Feature
             icon="ico/social-media-comment-color.png"
-            title="Comments/p"
+            title="Comments"
             value={parseInt(AverageComments.toFixed(0)).toLocaleString()}
           />
           {/* {ISVerified ? (
