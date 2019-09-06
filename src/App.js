@@ -32,25 +32,25 @@ export default class App extends React.Component {
       this.setState({ isLoading: false, Result: x }, function() {});
     });
 
-    // console.log("Listening for Install prompt");
-    // window.addEventListener("beforeinstallprompt", e => {
-    //   // For older browsers
-    //   e.preventDefault();
-    //   console.log("Install Prompt fired");
-    //   this.installPrompt = e;
-    //   // See if the app is already installed, in that case, do nothing
-    //   if (
-    //     (window.matchMedia &&
-    //       window.matchMedia("(display-mode: standalone)").matches) ||
-    //     window.navigator.standalone === true
-    //   ) {
-    //     return false;
-    //   }
-    //   // Set the state variable to make button visible
-    //   this.setState({
-    //     installButton: true
-    //   });
-    // });
+    console.log("Listening for Install prompt");
+    window.addEventListener("beforeinstallprompt", e => {
+      // For older browsers
+      e.preventDefault();
+      console.log("Install Prompt fired");
+      this.installPrompt = e;
+      // See if the app is already installed, in that case, do nothing
+      if (
+        (window.matchMedia &&
+          window.matchMedia("(display-mode: standalone)").matches) ||
+        window.navigator.standalone === true
+      ) {
+        return false;
+      }
+      // Set the state variable to make button visible
+      this.setState({
+        installButton: true
+      });
+    });
   }
   installApp = async () => {
     if (!this.installPrompt) return false;
