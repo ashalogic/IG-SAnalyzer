@@ -254,7 +254,7 @@ export default class App extends React.Component {
                 className="btn btn-dark btn-block rounded-0"
               >
                 <i className="fas fa-arrow-circle-down mr-2"></i>
-                {this.installButton ? "True" : "False"}
+                Install IGSAnalyzer Now For Free !
               </button>
             </div>
             <Route
