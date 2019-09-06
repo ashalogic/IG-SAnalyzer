@@ -237,13 +237,11 @@ export default class App extends React.Component {
             Install As Application
           </Conditional> */}
             <div
-              className="fixed-bottom"
-              style={
-                {
-                  // backgroundColor: "rgba(255,255,255,0.7)",
-                  // backdropFilter: "saturate(180%) blur(20px)"
-                }
-              }
+              className="fixed-bottom text-center"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.7)",
+                backdropFilter: "saturate(180%) blur(20px)"
+              }}
             >
               <button
                 id="fabbtn"
@@ -251,7 +249,7 @@ export default class App extends React.Component {
                   display: this.state.installButton ? "block" : "none"
                 }}
                 onClick={this.installApp}
-                className="btn btn-dark btn-block rounded-0"
+                className="btn btn-outline-dark rounded-0 m-1"
               >
                 <i className="fas fa-arrow-circle-down mr-2"></i>
                 Install IGSAnalyzer Now For Free !
@@ -329,8 +327,16 @@ export default class App extends React.Component {
                 /> */}
               </div>
             </div>
-            <br />
-            <br />
+            <br
+              style={{
+                display: this.state.installButton ? "block" : "none"
+              }}
+            />
+            <br
+              style={{
+                display: this.state.installButton ? "block" : "none"
+              }}
+            />
           </div>
         </Router>
       </div>

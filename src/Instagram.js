@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 var mm = {
   data: {
     user: {
@@ -2948,6 +2949,7 @@ var mm = {
   status: "ok"
 };
 
+// eslint-disable-next-line
 var pp = {
   logging_page_id: "profilePage_1705191588",
   show_suggested_profiles: true,
@@ -3791,12 +3793,12 @@ var pp = {
 };
 
 export function FetchData(username) {
-  return new Promise((resolve, reject) => {
-    resolve({
-      Account: pp.graphql.user,
-      Medias: mm.data.user.edge_owner_to_timeline_media
-    });
-  });
+  // return new Promise((resolve, reject) => {
+  //   resolve({
+  //     Account: pp.graphql.user,
+  //     Medias: mm.data.user.edge_owner_to_timeline_media
+  //   });
+  // });
   // eslint-disable-next-line
   return new Promise((resolve, reject) => {
     fetch("https://www.instagram.com/" + username + "/?__a=1")
