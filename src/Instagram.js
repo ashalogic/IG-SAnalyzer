@@ -3791,12 +3791,12 @@ var pp = {
 };
 
 export function FetchData(username) {
-  // return new Promise((resolve, reject) => {
-  //   resolve({
-  //     Account: pp.graphql.user,
-  //     Medias: mm.data.user.edge_owner_to_timeline_media
-  //   });
-  // });
+  return new Promise((resolve, reject) => {
+    resolve({
+      Account: pp.graphql.user,
+      Medias: mm.data.user.edge_owner_to_timeline_media
+    });
+  });
   return new Promise((resolve, reject) => {
     fetch("https://www.instagram.com/" + username + "/?__a=1")
       .then(account => account.json())

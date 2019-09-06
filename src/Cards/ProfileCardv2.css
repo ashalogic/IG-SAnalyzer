@@ -1,27 +1,61 @@
 .profilecard-background {
-  /* background-color: #fff; */
-  height: 320px;
+  background-color: rgba(255, 255, 255, 0.7);
+  height: 300px;
   width: 100%;
-  filter: saturate(180%) blur(35px);
+  filter: saturate(180%) blur(60px);
   /* background-color: #E1306C; */
-  background-size: 260px 360px;
+  /* background-size: 280px 250px; */
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  /* border-radius: 1000px; */
+  /* background-color: #e3e3e3; */
+  /* background-blend-mode: multiply; */
+  z-index: 1;
 }
 
 .profilecard-image {
-  box-shadow: 0 0 0pt 4pt #fff;
+  box-shadow: 0 0 0pt 2pt #fff;
   background-size: cover;
   height: 192px;
   width: 192px;
   position: absolute;
-  z-index: 1;
+  z-index: 4;
   top: 24px;
   left: 0;
   right: 0;
   margin: auto;
 }
 
+.profilecard-border {
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  filter: saturate(180%) blur(20px);
+  height: 206px;
+  width: 206px;
+  border-radius: 1000px;
+  margin: auto;
+  z-index: 3;
+}
+.profilecard-border-container {
+  box-shadow: 0 0 0pt 2pt #fff;
+  height: 206px;
+  width: 206px;
+  border-radius: 1000px;
+  position: absolute;
+  z-index: 2;
+  top: 17px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  overflow: hidden;
+}
 .profilecard-text {
   position: absolute;
   z-index: 1;
