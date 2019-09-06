@@ -3,7 +3,7 @@ import React from "react";
 import MentionsTable from "../Components/MentionsTable";
 import HashtagsTable from "../Components/HashtagsTable";
 import TopPostEmbed from "../Components/TopPostEmbed";
-import { Suspense, lazy } from 'react';
+import { Suspense } from "react";
 const CloudWords = React.lazy(() => import("../Components/CloudWords"));
 
 export default class Content extends React.Component {

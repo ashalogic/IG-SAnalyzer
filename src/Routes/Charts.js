@@ -3,7 +3,7 @@ import LikeCommentBC from "../Components/LikeCommentBC";
 // import MediasTypesPC from "../Components/MediasTypesPC";
 import EngagementsCalander from "../Components/EngagementsCalander";
 import LikeCommentEngagementBLC from "../Components/LikeCommentEngagementBLC";
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 const MediasTypesPC = React.lazy(() => import("../Components/MediasTypesPC"));
 
 export default class Charts extends React.Component {

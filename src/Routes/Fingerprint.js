@@ -47,9 +47,9 @@ export default class Fingerprint extends React.Component {
           />
         </div>
         <div className="col-md-7 mx-auto align-self-end text-center">
-          {/* <div class="jumbotron">
-            <h1 class="display-4">Hello, world!</h1>
-            <p class="lead">
+          {/* <div className="jumbotron">
+            <h1 className="display-4">Hello, world!</h1>
+            <p className="lead">
               This is a simple hero unit, a simple jumbotron-style component for
               calling extra attention to featured content or information.
             </p>
@@ -61,20 +61,21 @@ export default class Fingerprint extends React.Component {
               // backgroundPosition: "top",
               // backgroundSize:"cover",
               // display: "none",
-              overflow: "hidden",
+              overflow: "hidden"
               // backgroundColor: "#fff"
               // color: "#fff"
             }}
             className=""
           >
-            <blockquote class="blockquote p-4 pt-0">
-              <p class="mb-0">{this.props.Result.Account.biography}</p>
-              <footer class="blockquote-footer">
+            <blockquote className="blockquote p-4 pt-0">
+              <p className="mb-0">{this.props.Result.Account.biography}</p>
+              <footer className="blockquote-footer">
                 {this.props.Result.Account.full_name} in{" "}
                 <cite title="Source Title">Instagram</cite>
               </footer>
             </blockquote>
             <img
+              alt="footer"
               className="w-75 mx-auto"
               src="https://meetsylo.com/assets/images/temp/about-intro@2x.png"
             />

@@ -4,12 +4,19 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Instagram simple analyzer" />
   <link rel="apple-touch-icon" href="logo192.png" />
   <meta name="google-site-verification" content="XAPi3_4PVMdZ3uamY_lQLTFzyUmVevmKKOUXuRHA_n0" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!-- Tell the browser it's a PWA -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <!-- Tell iOS it's a PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Make sure theme-color is defined -->
+  <meta name="theme-color" content="#536878">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -71,6 +78,15 @@
         // console.log("ready!");
       }
       setTimeout(showpanel, 4000)
+    });
+  </script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "4a045e8f-64df-4f1e-b439-382226b52427",
+      });
     });
   </script>
 </body>

@@ -8,43 +8,14 @@ import Diagnoses from "./Routes/Diagnoses";
 import Fingerprint from "./Routes/Fingerprint";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Content from "./Routes/Content";
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
-      username: "golfarahani"
+      isLoading: true
     };
-    // this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.usernametextInput = React.createRef();
-  }
-
-  installApp = async () => {
-    if (!this.installPrompt) return false;
-    this.installPrompt.prompt();
-    let outcome = await this.installPrompt.userChoice;
-    if (outcome.outcome == "accepted") {
-      console.log("App Installed");
-    } else {
-      console.log("App not installed");
-    }
-    // Remove the event reference
-    this.installPrompt = null;
-    // Hide the button
-    this.setState({
-      installButton: false
-    });
-  };
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value
-    });
   }
 
   handleClick(event) {
@@ -80,6 +51,22 @@ export default class App extends React.Component {
       });
     });
   }
+  installApp = async () => {
+    if (!this.installPrompt) return false;
+    this.installPrompt.prompt();
+    let outcome = await this.installPrompt.userChoice;
+    if (outcome.outcome === "accepted") {
+      console.log("App Installed");
+    } else {
+      console.log("App not installed");
+    }
+    // Remove the event reference
+    this.installPrompt = null;
+    // Hide the button
+    this.setState({
+      installButton: false
+    });
+  };
 
   render() {
     if (this.state.isLoading) {
@@ -91,8 +78,8 @@ export default class App extends React.Component {
           className="h-100 container-fluid text-center align-content-center"
         >
           <br />
-          <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
           <br />
           {/* <h1 className="text-left">Loading</h1> */}
@@ -117,9 +104,9 @@ export default class App extends React.Component {
       >
         {/* <NavBar /> */}
         <nav className="p-3 scrolling-navbar fixed-top navbar-style text-center">
-          <ul class="nav justify-content-center text-center Righteous">
-            <li class="nav-item">
-              <a class="nav-link" style={{ color: "#545b62" }} href="#">
+          <ul className="nav justify-content-center text-center Righteous">
+            <li className="nav-item">
+              <a className="nav-link" style={{ color: "#545b62" }} href="/">
                 Home
               </a>
             </li>
@@ -129,8 +116,12 @@ export default class App extends React.Component {
             >
               IGSAnalyzer
             </span>
-            <li class="nav-item">
-              <a class="nav-link" style={{ color: "#545b62" }} href="#">
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                style={{ color: "#545b62" }}
+                href="https://github.com/ashalogic"
+              >
                 About
               </a>
             </li>
@@ -144,7 +135,7 @@ export default class App extends React.Component {
                   color: "#000"
                 }}
               >
-                <i class="fas fa-at"></i>
+                <i className="fas fa-at"></i>
               </span>
             </div>
             <input
@@ -174,7 +165,7 @@ export default class App extends React.Component {
                   style={{
                     display: this.state.InAppisLoading ? "" : "none"
                   }}
-                  class="spinner-border spinner-border-sm mr-2"
+                  className="spinner-border spinner-border-sm mr-2"
                   role="status"
                   aria-hidden="true"
                 ></span>
@@ -189,51 +180,48 @@ export default class App extends React.Component {
         <br />
         <br />
         <Router>
-          <div
-            className=""
-            // style={{ backgroundImage: "url('./email-pattern.png')" }}
-          >
+          <div>
             <div className="row nav-scroller">
               <div className="col-md-12 mx-auto">
-                <ul class="nav nav-tabs nav-fill nav-igs-pills rounded border-0 Righteous">
-                  <li class="nav-item">
+                <ul className="nav nav-tabs nav-fill nav-igs-pills rounded border-0 Righteous">
+                  <li className="nav-item">
                     <NavLink exact className="igs-nav-link" to="/">
-                      <i class="fas fa-fingerprint"></i>
+                      <i className="fas fa-fingerprint"></i>
                       <br />
                       Fingerprint
                     </NavLink>
                   </li>
-                  <li class="nav-item">
+                  <li className="nav-item">
                     <NavLink className="igs-nav-link" to="/content">
-                      <i class="fas fa-hashtag"></i>
+                      <i className="fas fa-hashtag"></i>
                       <br />
                       Content
                     </NavLink>
                   </li>
-                  <li class="nav-item">
+                  <li className="nav-item">
                     <NavLink className="igs-nav-link" to="/charts">
-                      <i class="fas fa-chart-pie"></i>
+                      <i className="fas fa-chart-pie"></i>
                       <br />
                       Analysis
                     </NavLink>
                   </li>
-                  <li class="nav-item">
+                  <li className="nav-item">
                     <NavLink className="igs-nav-link" to="/diagnoses">
-                      <i class="fas fa-diagnoses"></i>
+                      <i className="fas fa-diagnoses"></i>
                       <br />
                       Diagnoses
                     </NavLink>
                   </li>
-                  <li class="nav-item">
+                  <li className="nav-item">
                     <NavLink className="igs-nav-link" to="/analogize">
-                      <i class="fas fa-not-equal"></i>
+                      <i className="fas fa-not-equal"></i>
                       <br />
                       Analogize
                     </NavLink>
                   </li>
-                  <li class="nav-item">
+                  <li className="nav-item">
                     <NavLink className="igs-nav-link" to="/download">
-                      <i class="fas fa-cloud-download-alt"></i>
+                      <i className="fas fa-cloud-download-alt"></i>
                       <br />
                       Download
                     </NavLink>
@@ -242,6 +230,11 @@ export default class App extends React.Component {
               </div>
             </div>
 
+            {/* <Conditional condition={this.state.installButton}
+             style={styles.installBtn}
+             onClick={this.installApp}>
+            Install As Application
+          </Conditional> */}
             <div
               className="fixed-bottom"
               style={
@@ -252,13 +245,14 @@ export default class App extends React.Component {
               }
             >
               <button
+                id="fabbtn"
                 style={{
                   display: this.state.installButton ? "none" : "block"
                 }}
                 onClick={this.installApp}
                 className="btn btn-dark btn-block rounded-0"
               >
-                <i class="fas fa-arrow-circle-down mr-2"></i>
+                <i className="fas fa-arrow-circle-down mr-2"></i>
                 Install IGSAnalyzer For Free Now !
               </button>
             </div>
@@ -320,10 +314,12 @@ export default class App extends React.Component {
                   src="https://mixtarget.com/wp-content/uploads/2019/06/influencer.png"
                 /> */}
                 <img
+                  alt=""
                   className="w-75"
                   src="https://www.geckoboard.com/assets/analysis-guide-illo-4.png"
                 />
                 <img
+                  alt=""
                   className="w-25"
                   src="https://getswarm.co/wp-content/uploads/2019/07/175e42060fd8694667a8ae0fc3f6265d-640x600.png "
                 />
