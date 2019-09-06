@@ -12,7 +12,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
+      installButton: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.usernametextInput = React.createRef();
@@ -31,25 +32,25 @@ export default class App extends React.Component {
       this.setState({ isLoading: false, Result: x }, function() {});
     });
 
-    console.log("Listening for Install prompt");
-    window.addEventListener("beforeinstallprompt", e => {
-      // For older browsers
-      e.preventDefault();
-      console.log("Install Prompt fired");
-      this.installPrompt = e;
-      // See if the app is already installed, in that case, do nothing
-      if (
-        (window.matchMedia &&
-          window.matchMedia("(display-mode: standalone)").matches) ||
-        window.navigator.standalone === true
-      ) {
-        return false;
-      }
-      // Set the state variable to make button visible
-      this.setState({
-        installButton: true
-      });
-    });
+    // console.log("Listening for Install prompt");
+    // window.addEventListener("beforeinstallprompt", e => {
+    //   // For older browsers
+    //   e.preventDefault();
+    //   console.log("Install Prompt fired");
+    //   this.installPrompt = e;
+    //   // See if the app is already installed, in that case, do nothing
+    //   if (
+    //     (window.matchMedia &&
+    //       window.matchMedia("(display-mode: standalone)").matches) ||
+    //     window.navigator.standalone === true
+    //   ) {
+    //     return false;
+    //   }
+    //   // Set the state variable to make button visible
+    //   this.setState({
+    //     installButton: true
+    //   });
+    // });
   }
   installApp = async () => {
     if (!this.installPrompt) return false;
@@ -247,16 +248,15 @@ export default class App extends React.Component {
               <button
                 id="fabbtn"
                 style={{
-                  display: this.state.installButton ? "none" : "block"
+                  display: this.state.installButton ? "block" : "none"
                 }}
                 onClick={this.installApp}
                 className="btn btn-dark btn-block rounded-0"
               >
                 <i className="fas fa-arrow-circle-down mr-2"></i>
-                Install IGSAnalyzer For Free Now !
+                {this.installButton ? "True" : "False"}
               </button>
             </div>
-
             <Route
               path="/"
               exact
