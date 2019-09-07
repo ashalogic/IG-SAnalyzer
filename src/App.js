@@ -182,6 +182,15 @@ export default class App extends React.Component {
         <br />
         <Router>
           <div>
+            <div
+              id="notificationmsg"
+              style={{ display: "none" }}
+              class="alert alert-info text-center"
+              role="alert"
+            >
+              New Update available! Reload the webapp to see the latest juicy
+              changes.
+            </div>
             <div className="row nav-scroller">
               <div className="col-md-12 mx-auto">
                 <ul className="nav nav-tabs nav-fill nav-igs-pills rounded border-0 Righteous">
@@ -288,6 +297,12 @@ export default class App extends React.Component {
                     © {new Date().getFullYear()} IGSAnalyzer All Rights Reserved
                   </p>
                 </div>
+                <img
+                  alt=""
+                  className="w-25"
+                  src="https://getswarm.co/wp-content/uploads/2019/07/175e42060fd8694667a8ae0fc3f6265d-640x600.png "
+                />
+                <br />
                 {/* <img
                   className="w-25"
                   src="https://firelaunchers.com/offers/instagram-follower-magnet-with-plr-upsell/images/illustration_1.png"
@@ -309,32 +324,13 @@ export default class App extends React.Component {
                   className="w-75"
                   src="https://www.geckoboard.com/assets/analysis-guide-illo-4.png"
                 />
-                <img
-                  alt=""
-                  className="w-25"
-                  src="https://getswarm.co/wp-content/uploads/2019/07/175e42060fd8694667a8ae0fc3f6265d-640x600.png "
-                />
+
                 {/* <img
                   className="w-100"
                   src="https://cdn.likegrowers.com/wp-content/uploads/2019/05/mobile-footer1.png"
                 /> */}
               </div>
             </div>
-            <br
-              style={{
-                display: this.state.installButton ? "block" : "none"
-              }}
-            />
-            <br
-              style={{
-                display: this.state.installButton ? "block" : "none"
-              }}
-            />
-            <br
-              style={{
-                display: this.state.installButton ? "block" : "none"
-              }}
-            />
           </div>
         </Router>
       </div>
