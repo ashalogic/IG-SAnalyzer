@@ -27,48 +27,46 @@ function FeaturesTable(props) {
 
   return (
     <div
-      className="card igs-card card-2 border-0"
+      className="card igs-card border-0"
       style={{
-        // backgroundColor: "rgba(227,227,227,0.7)",
-        backgroundColor: "unset",
-        backdropFilter: "saturate(80%) blur(4px)"
+        backgroundColor: "rgba(255, 255, 255, 0.7)"
       }}
     >
-      <div className="card-body">
+      <div className="card-body p-1 pt-4">
         <div className="row">
           {ISPrivate ? (
             <Feature icon="ico/private-color.png" title="Private" value=":(" />
           ) : null}
           <Feature
-            icon="ico/social-engagement-color.png"
-            title="Engagement"
+            icon="ico/social-engagement.png"
+            title="Impression"
             value={TotalEngagement.toFixed(2) + "%"}
           />
           <Feature
-            icon="ico/group-color.png"
+            icon="ico/group.png"
             title="Followers"
             value={Followers.toLocaleString()}
           />
           <Feature
-            icon="ico/social-media-like-color.png"
-            title="Likes/p"
+            icon="ico/social-media-like.png"
+            title="Likes"
             value={parseInt(AverageLikes.toFixed(0)).toLocaleString()}
           />
           <Feature
-            icon="ico/social-media-comment-color.png"
-            title="Comments/p"
+            icon="ico/social-media-comment.png"
+            title="Comments"
             value={parseInt(AverageComments.toFixed(0)).toLocaleString()}
           />
           {/* {ISVerified ? (
             <Feature icon="ico/correct.png" title="Verified" value=":)" />
           ) : null} */}
           <Feature
-            icon="ico/share-color.png"
+            icon="ico/share.png"
             title="Medias"
             value={MediasCount.toLocaleString()}
           />
           <Feature
-            icon="ico/social-media-like-comment-color.png"
+            icon="ico/social-media-like-comment.png"
             title="Total L&C"
             value={(
               Likes.reduce((a, b) => a + b, 0) +

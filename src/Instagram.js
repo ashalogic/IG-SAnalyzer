@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 var mm = {
   data: {
     user: {
@@ -2948,6 +2949,7 @@ var mm = {
   status: "ok"
 };
 
+// eslint-disable-next-line
 var pp = {
   logging_page_id: "profilePage_1705191588",
   show_suggested_profiles: true,
@@ -2955,7 +2957,7 @@ var pp = {
   toast_content_on_load: null,
   graphql: {
     user: {
-      biography: "",
+      biography: "My life is my poetry My love making is my legacy",
       blocked_by_viewer: false,
       country_block: false,
       external_url: "https://twitter.com/Golshifteh",
@@ -3797,6 +3799,7 @@ export function FetchData(username) {
   //     Medias: mm.data.user.edge_owner_to_timeline_media
   //   });
   // });
+  // eslint-disable-next-line
   return new Promise((resolve, reject) => {
     fetch("https://www.instagram.com/" + username + "/?__a=1")
       .then(account => account.json())

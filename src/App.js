@@ -1,183 +1,338 @@
 import "./App.css";
 import React from "react";
-import NavBar from "./Cards/NavBar";
+// import NavBar from "./Cards/NavBar";
 import { FetchData } from "./Instagram.js";
-import ProfileCardv2 from "./Cards/ProfileCardv2";
-import FeaturesTable from "./Components/FeaturesTable";
-import LikeCommentBC from "./Components/LikeCommentBC";
-import MediasTypesPC from "./Components/MediasTypesPC";
-import EngagementsCalander from "./Components/EngagementsCalander";
-import LikeCommentEngagementBLC from "./Components/LikeCommentEngagementBLC";
-import CloudWords from "./Components/CloudWords";
-import MediasTable from "./Components/MediasTable";
-import MentionsTable from "./Components/MentionsTable";
-import HashtagsTable from "./Components/HashtagsTable";
-import TopPostEmbed from "./Components/TopPostEmbed";
 
+import Charts from "./Routes/Charts";
+import Diagnoses from "./Routes/Diagnoses";
+import Fingerprint from "./Routes/Fingerprint";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import Content from "./Routes/Content";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      username: "golfarahani"
+      installButton: false
     };
-
-    // this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.usernametextInput = React.createRef();
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value
-    });
-  }
-
   handleClick(event) {
+    this.setState({ InAppisLoading: true });
     FetchData(String(this.usernametextInput.current.value)).then(x => {
-      this.setState({ Result: x });
+      this.setState({ InAppisLoading: false, Result: x });
     });
   }
 
+  installPrompt = null;
   componentDidMount() {
-    return FetchData("instagram").then(x => {
+    FetchData("taylorswift").then(x => {
       this.setState({ isLoading: false, Result: x }, function() {});
-      // console.log("WOW")
+    });
+
+    console.log("Listening for Install prompt");
+    window.addEventListener("beforeinstallprompt", e => {
+      // For older browsers
+      e.preventDefault();
+      console.log("Install Prompt fired");
+      this.installPrompt = e;
+      // See if the app is already installed, in that case, do nothing
+      if (
+        (window.matchMedia &&
+          window.matchMedia("(display-mode: standalone)").matches) ||
+        window.navigator.standalone === true
+      ) {
+        return false;
+      }
+      // Set the state variable to make button visible
+      this.setState({
+        installButton: true
+      });
     });
   }
+  installApp = async () => {
+    if (!this.installPrompt) return false;
+    this.installPrompt.prompt();
+    let outcome = await this.installPrompt.userChoice;
+    if (outcome.outcome === "accepted") {
+      console.log("App Installed");
+    } else {
+      console.log("App not installed");
+    }
+    // Remove the event reference
+    this.installPrompt = null;
+    // Hide the button
+    this.setState({
+      installButton: false
+    });
+  };
 
   render() {
     if (this.state.isLoading) {
       // if (true) {
       // if (false) {
       return (
-        <div className="h-100 container-fluid text-center align-content-center">
+        <div
+          style={{ backgroundColor: "#e3e3e3" }}
+          className="h-100 container-fluid text-center align-content-center"
+        >
           <br />
-          <h1 className="text-left">Loading</h1>
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <br />
+          {/* <h1 className="text-left">Loading</h1> */}
           <img
-            className="img-fluid mx-auto align-self-center"
+            className="img-fluid mx-auto align-self-center col-md-5"
             alt="loading"
             src="./loading.png"
           />
         </div>
       );
     }
-
     return (
-      <div className="container">
-        <NavBar />
-        <br />
-        <br />
-        <br />
-        <div className="row">
-          <div className="col">
-            <div
-              className="card igs-card card-2 border-0"
-              style={{
-                backgroundColor: "unset",
-                backdropFilter: "saturate(80%) blur(4px)"
-              }}
+      // <div className="col-12 col-sm-12 col-md-11 mx-auto">
+      <div
+        className="container"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(64,93,230,1) 23%, rgba(88,81,219,1) 29%, rgba(131,58,180,1) 35%, rgba(193,53,132,1) 41%, rgba(225,48,108,1) 47%, rgba(253,29,29,1) 53%, rgba(245,96,64,1) 59%, rgba(247,119,55,1) 65%, rgba(252,175,69,1) 71%, rgba(255,220,128,1) 77%, rgba(255,255,255,1) 100%)",
+          backgroundSize: "100% 40px",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        {/* <NavBar /> */}
+        <nav className="p-3 scrolling-navbar fixed-top navbar-style text-center">
+          <ul className="nav justify-content-center text-center Righteous">
+            <li className="nav-item">
+              <a className="nav-link" style={{ color: "#545b62" }} href="/">
+                Home
+              </a>
+            </li>
+            <span
+              className="h3 Lobster text-center"
+              style={{ color: "#E1306C" }}
             >
-              <div className="card-body">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span
-                      className="input-group-text border-0"
-                      style={{
-                        backgroundColor: "unset",
-                        color: "#000"
-                      }}
-                    >
-                      @
-                    </span>
-                  </div>
-                  <input
-                    // name="username"
-                    type="text"
-                    // value={this.state.username}
-                    className="form-control"
-                    placeholder="Username"
-                    // onChange={this.handleInputChange}
-                    style={{
-                      backgroundColor: "transparent",
-                      borderColor: "#000",
-                      color: "#000",
-                      border: "none",
-                      borderRadius: "0",
-                      borderBottom: "#000 solid 1px"
-                    }}
-                    ref={this.usernametextInput}
-                  />
-                  <div className="input-group-append">
-                    <button
-                      onClick={this.handleClick}
-                      className="btn btn-outline-dark"
-                      type="button"
-                    >
-                      Fetch
-                    </button>
-                  </div>
+              IGSAnalyzer
+            </span>
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                style={{ color: "#545b62" }}
+                href="https://github.com/ashalogic"
+              >
+                About
+              </a>
+            </li>
+          </ul>
+          <div className="input-group col-md-6 mx-auto">
+            <div className="input-group-prepend">
+              <span
+                className="input-group-text border-0"
+                style={{
+                  backgroundColor: "unset",
+                  color: "#000"
+                }}
+              >
+                <i className="fas fa-at"></i>
+              </span>
+            </div>
+            <input
+              // name="username"
+              type="text"
+              // value={this.state.username}
+              className="form-control"
+              placeholder="Username"
+              // onChange={this.handleInputChange}
+              style={{
+                backgroundColor: "transparent",
+                borderColor: "#000",
+                color: "#000",
+                border: "none",
+                borderRadius: "0",
+                borderBottom: "#000 solid 1px"
+              }}
+              ref={this.usernametextInput}
+            />
+            <div className="input-group-append">
+              <button
+                onClick={this.handleClick}
+                className="btn btn-outline-dark"
+                type="button"
+              >
+                <span
+                  style={{
+                    display: this.state.InAppisLoading ? "" : "none"
+                  }}
+                  className="spinner-border spinner-border-sm mr-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Fetch
+              </button>
+            </div>
+          </div>
+        </nav>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <Router>
+          <div>
+            <div
+              id="notificationmsg"
+              style={{ display: "none" }}
+              class="alert alert-info text-center"
+              role="alert"
+            >
+              New Update available! Reload the webapp to see the latest juicy
+              changes.
+            </div>
+            <div className="row nav-scroller">
+              <div className="col-md-12 mx-auto">
+                <ul className="nav nav-tabs nav-fill nav-igs-pills rounded border-0 Righteous">
+                  <li className="nav-item">
+                    <NavLink exact className="igs-nav-link" to="/">
+                      <i className="fas fa-fingerprint"></i>
+                      <br />
+                      Fingerprint
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="igs-nav-link" to="/content">
+                      <i className="fas fa-hashtag"></i>
+                      <br />
+                      Content
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="igs-nav-link" to="/charts">
+                      <i className="fas fa-chart-pie"></i>
+                      <br />
+                      Analysis
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="igs-nav-link" to="/diagnoses">
+                      <i className="fas fa-diagnoses"></i>
+                      <br />
+                      Diagnoses
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="igs-nav-link" to="/analogize">
+                      <i className="fas fa-not-equal"></i>
+                      <br />
+                      Analogize
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="igs-nav-link" to="/download">
+                      <i className="fas fa-cloud-download-alt"></i>
+                      <br />
+                      Download
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <img
+              alt="download"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Install IGSAnalyzer"
+              style={{
+                display: this.state.installButton ? "unset" : "none",
+                filter: "drop-shadow(0 2px 4px rgba(34,36,38,0.35))",
+                position: "fixed",
+                cursor: "pointer",
+                padding: 0,
+                zIndex: 10,
+                bottom: 68,
+                right: 15
+              }}
+              onClick={this.installApp}
+              src="data:image/png;base64,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"
+            />
+            <Route
+              path="/"
+              exact
+              component={props => (
+                <Fingerprint {...props} Result={this.state.Result} />
+              )}
+            />
+            <Route
+              path="/charts"
+              Result={this.state.Result}
+              component={props => (
+                <Charts {...props} Result={this.state.Result} />
+              )}
+            />
+            <Route
+              path="/content"
+              Result={this.state.Result}
+              component={props => (
+                <Content {...props} Result={this.state.Result} />
+              )}
+            />
+            <Route
+              path="/diagnoses/"
+              Result={this.state.Result}
+              component={props => (
+                <Diagnoses {...props} Result={this.state.Result} />
+              )}
+            />
+            <div className="row">
+              {/* <img
+                className="img-fluid align-self-center col-md-5"
+                alt="loading"
+                src="./loading.png"
+              /> */}
+              <div className="col-md-8 mx-auto text-center align-self-center mt-2">
+                <div className="">
+                  <p className="lead">
+                    © {new Date().getFullYear()} IGSAnalyzer All Rights Reserved
+                  </p>
                 </div>
+                <img
+                  alt=""
+                  className="w-25"
+                  src="https://getswarm.co/wp-content/uploads/2019/07/175e42060fd8694667a8ae0fc3f6265d-640x600.png "
+                />
+                <br />
+                {/* <img
+                  className="w-25"
+                  src="https://firelaunchers.com/offers/instagram-follower-magnet-with-plr-upsell/images/illustration_1.png"
+                /> */}
+                {/* <img
+                  className="w-25"
+                  src="https://seguidores.online/wp-content/uploads/2019/01/entrar-a-Instagram-sin-c%C3%B3digo-de-verificaci%C3%B3n.png"
+                /> */}
+                {/* <img
+                  className="w-50"
+                  src="https://instazood.com/wp-content/uploads/2019/05/Instagram-Marketing-Automation4@2x.png"
+                /> */}
+                {/* <img
+                  className="w-25"
+                  src="https://mixtarget.com/wp-content/uploads/2019/06/influencer.png"
+                /> */}
+                <img
+                  alt=""
+                  className="w-75"
+                  src="https://www.geckoboard.com/assets/analysis-guide-illo-4.png"
+                />
+
+                {/* <img
+                  className="w-100"
+                  src="https://cdn.likegrowers.com/wp-content/uploads/2019/05/mobile-footer1.png"
+                /> */}
               </div>
             </div>
           </div>
-        </div>
-        <br />
-        <div className="row">
-          <div className="col-md-4 align-self-center">
-            <ProfileCardv2
-              bio={this.state.Result.Account.biography}
-              fullname={this.state.Result.Account.full_name}
-              picture={this.state.Result.Account.profile_pic_url_hd}
-            />
-          </div>
-          <div className="col-md-8 align-self-center">
-            <FeaturesTable data={this.state.Result} />
-          </div>
-        </div>
-        <br />
-        <div className="row ">
-          <div className="col-md-6 mb-4">
-            <h4 className="Righteous">Like & Comment through time</h4>
-            <LikeCommentBC data={this.state.Result} />
-          </div>
-          <div className="col-md-6 mb-4">
-            <h4 className="Righteous">Like,Comment, Engagement through time</h4>
-            <LikeCommentEngagementBLC data={this.state.Result} />
-          </div>
-          <div className="col-md-12 mb-4">
-            <h4 className="Righteous">Engagement Calander</h4>
-            <EngagementsCalander data={this.state.Result} />
-          </div>
-          <div className="col-md-6 mb-4">
-            <h4 className="Righteous">Media Types</h4>
-            <MediasTypesPC data={this.state.Result} />
-          </div>
-          <div className="col-md-6 mb-4 align-self-center">
-            <h4 className="Righteous">Top Words</h4>
-            <CloudWords data={this.state.Result} />
-          </div>
-          <div className="col-md-6 mb-4 align-self-center">
-            <h4 className="Righteous">Top 5 Mentions</h4>
-            <MentionsTable data={this.state.Result.Medias} />
-          </div>
-          <div className="col-md-6 mb-4 align-self-center">
-            <h4 className="Righteous">Top 5 Hashtags</h4>
-            <HashtagsTable data={this.state.Result.Medias} />
-          </div>
-          <div className="col-md-4 mb-4 align-self-center">
-            <h4 className="Righteous">Top Post</h4>
-            <TopPostEmbed data={this.state.Result} />
-          </div>
-          <div className="col-md-8 mb-4 align-self-center" />
-          <div className="col-md-12">
-            <h4 className="Righteous">Last 12 Post</h4>
-            <MediasTable data={this.state.Result.Medias} />
-          </div>
-        </div>
+        </Router>
       </div>
     );
   }

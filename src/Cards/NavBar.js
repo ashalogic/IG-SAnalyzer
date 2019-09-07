@@ -2,7 +2,21 @@ import React from "react";
 import "./NavBar.css";
 
 export default () => (
-  <nav className="navbar navbar-light fixed-top shadow-sm navbar-style">
-    <span className="navbar-brand mb-0 h1 Lobster">IGSAnalyzer</span>
+  <nav className="p-3 scrolling-navbar fixed-top navbar-style text-center">
+    <ul class="nav justify-content-center text-center Righteous">
+      <li class="nav-item">
+        <a class="nav-link" style={{ color: "#545b62" }} href="#">
+          Home
+        </a>
+      </li>
+      <span className="h3 Lobster text-center" style={{ color: "#E1306C" }}>
+        IGSAnalyzer
+      </span>
+      <li class="nav-item">
+        <a class="nav-link" style={{ color: "#545b62" }} href="#">
+          About
+        </a>
+      </li>
+    </ul>
   </nav>
 );

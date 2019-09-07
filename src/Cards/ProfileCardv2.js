@@ -4,14 +4,17 @@ import "./ProfileCardv2.css";
 function ProfileCard(props) {
   return (
     <div
-      className="card card-2 rounded-0 border-0"
-      style={{ backgroundColor: "unset", backdropFilter: " blur(8px)" }}
+      className="card-1 rounded-0 border-0"
+      // style={{ backgroundColor: "unset", backdropFilter: " blur(8px)" }}
     >
       <div className="card-body p-0 overflow-hidden">
         <div
           className="profilecard-background"
           style={{ backgroundImage: "url(" + props.picture + ")" }}
         />
+        <div className="profilecard-border-container">
+          <div className="profilecard-border" />
+        </div>
         <div
           className="rounded-circle profilecard-image"
           style={{ backgroundImage: "url(" + props.picture + ")" }}
