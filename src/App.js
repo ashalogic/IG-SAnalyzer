@@ -230,31 +230,24 @@ export default class App extends React.Component {
                 </ul>
               </div>
             </div>
-
-            {/* <Conditional condition={this.state.installButton}
-             style={styles.installBtn}
-             onClick={this.installApp}>
-            Install As Application
-          </Conditional> */}
-            <div
-              className="fixed-bottom text-center"
+            <img
+              alt="download"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Install IGSAnalyzer"
               style={{
-                backgroundColor: "rgba(255,255,255,0.7)",
-                backdropFilter: "saturate(180%) blur(20px)"
+                display: this.state.installButton ? "unset" : "none",
+                filter: "drop-shadow(0 2px 4px rgba(34,36,38,0.35))",
+                position: "fixed",
+                cursor: "pointer",
+                padding: 0,
+                zIndex: 10,
+                bottom: 68,
+                right: 15
               }}
-            >
-              <button
-                id="fabbtn"
-                style={{
-                  display: this.state.installButton ? "block" : "none"
-                }}
-                onClick={this.installApp}
-                className="btn btn-outline-dark rounded-0 m-1"
-              >
-                <i className="fas fa-arrow-circle-down mr-2"></i>
-                Install IGSAnalyzer Now For Free !
-              </button>
-            </div>
+              onClick={this.installApp}
+              src="data:image/png;base64,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"
+            />
             <Route
               path="/"
               exact
@@ -327,6 +320,11 @@ export default class App extends React.Component {
                 /> */}
               </div>
             </div>
+            <br
+              style={{
+                display: this.state.installButton ? "block" : "none"
+              }}
+            />
             <br
               style={{
                 display: this.state.installButton ? "block" : "none"

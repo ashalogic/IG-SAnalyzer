@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
@@ -13,8 +13,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
 var OneSignal = window.OneSignal || [];
 OneSignal.push(function() {
   OneSignal.init({
-    appId: "4a045e8f-64df-4f1e-b439-382226b52427"
-    // appId: "9f9b8f25-9546-4bba-b536-c334d910e09d"
+    appId: "5d0b9c5f-0c3b-4143-85ed-767a237d2103"
   });
 });
 
