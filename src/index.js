@@ -10,11 +10,6 @@ ReactDOM.render(<App />, document.getElementById("root"));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 
-var OneSignal = window.OneSignal || [];
-OneSignal.push(function() {
-  OneSignal.init({
-    appId: "5d0b9c5f-0c3b-4143-85ed-767a237d2103"
-  });
-});
+
 
 serviceWorker.register();
