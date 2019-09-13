@@ -27,7 +27,7 @@ function FeaturesTable(props) {
 
   return (
     <div
-      className="card igs-card border-0"
+      className="card border-0"
       style={{
         backgroundColor: "rgba(255, 255, 255, 0.7)"
       }}

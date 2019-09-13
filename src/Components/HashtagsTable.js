@@ -41,26 +41,26 @@ function HashtagsTable(props) {
   countedhashtags.sort((a, b) => (a.count < b.count ? 1 : -1));
   return (
     <div
-      className="card igs-card card-2 border-0"
+      className="card border-0"
       style={{
-        backgroundColor: "unset",
-        backdropFilter: "saturate(80%) blur(4px)"
+        backgroundColor: "rgba(255, 255, 255, 0.7)"
       }}
     >
       <div className="card-body">
         <table class="table">
-          <thead className="Righteous">
+          <thead className="Righteous text-center">
             <tr>
+              <th scope="col">
+                <i class="fas fa-hashtag"></i>
+              </th>
               <th scope="col">Tag</th>
               <th scope="col">Count</th>
-              <th scope="col">Link</th>
             </tr>
           </thead>
           <tbody>
             {countedhashtags.splice(0, 5).map((hashtag, i) => (
-              <tr key={i}>
-                <th scope="row">{hashtag.tag}</th>
-                <td>{hashtag.count}</td>
+              <tr className="text-center" key={i}>
+                <th>#</th>
                 <td>
                   <a
                     target="_blank"
@@ -69,11 +69,12 @@ function HashtagsTable(props) {
                       "https://www.instagram.com/explore/tags/" +
                       hashtag.tag.slice(1, hashtag.tag.length)
                     }
-                    className="btn btn-outline-info btn-block"
+                    className="btn btn-outline-dark btn-block kr-mixed"
                   >
-                    View More
+                    {hashtag.tag.replace("#", "")}
                   </a>
                 </td>
+                <td>{hashtag.count}</td>
               </tr>
             ))}
           </tbody>

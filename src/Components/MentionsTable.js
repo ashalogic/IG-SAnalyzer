@@ -59,26 +59,27 @@ function MentionsTable(props) {
   //   });
   return (
     <div
-      className="card igs-card card-2 border-0"
+      className="card border-0"
       style={{
-        backgroundColor: "unset",
-        backdropFilter: "saturate(80%) blur(4px)"
+        backgroundColor: "rgba(255, 255, 255, 0.7)"
       }}
     >
       <div className="card-body">
         <table class="table">
-          <thead className="Righteous">
+          <thead className="Righteous text-center">
             <tr>
+              <th scope="col">
+                <i class="fas fa-at"></i>
+              </th>
               <th scope="col">Username</th>
               <th scope="col">Count</th>
-              <th scope="col">Link</th>
+              {/* <th scope="col">Link</th> */}
             </tr>
           </thead>
           <tbody>
             {countedmentions.splice(0, 5).map((mention, i) => (
-              <tr key={i}>
-                <th scope="row">{mention.username}</th>
-                <td>{mention.count}</td>
+              <tr className="text-center" key={i}>
+                <th scope="row">@</th>
                 <td>
                   <a
                     target="_blank"
@@ -87,11 +88,12 @@ function MentionsTable(props) {
                       "https://www.instagram.com/" +
                       mention.username.slice(1, mention.username.length)
                     }
-                    className="btn btn-outline-info btn-block"
+                    className="btn btn-outline-dark btn-block kr-mixed"
                   >
-                    View Profile
+                    {mention.username.replace("@", "")}
                   </a>
                 </td>
+                <td>{mention.count}</td>
               </tr>
             ))}
           </tbody>

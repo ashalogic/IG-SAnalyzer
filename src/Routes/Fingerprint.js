@@ -47,13 +47,6 @@ export default class Fingerprint extends React.Component {
           />
         </div>
         <div className="col-md-7 mx-auto align-self-end text-center">
-          {/* <div className="jumbotron">
-            <h1 className="display-4">Hello, world!</h1>
-            <p className="lead">
-              This is a simple hero unit, a simple jumbotron-style component for
-              calling extra attention to featured content or information.
-            </p>
-          </div> */}
           <div
             style={{
               // backgroundImage:

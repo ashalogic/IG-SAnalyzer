@@ -1,20 +1,20 @@
 @import url("https://fonts.googleapis.com/css?family=Amatic+SC|Dancing+Script|Indie+Flower|Lobster|Pacifico|Righteous&display=swap");
+/* font-Koodakbold */
 @font-face {
-  font-family: "Far.KoodakBold";
-  src: url("https://www.fontfarsi.ir/Content/Fonts/EOT/Far_KoodakBold.eot");
-  src: local("☺"),
-    url("https://www.fontfarsi.ir/Content/Fonts/WOFF/Far_KoodakBold.woff")
-      format("woff"),
-    url("https://www.fontfarsi.ir/Content/Fonts/TTF/Far_KoodakBold.ttf")
-      format("truetype"),
-    url("https://www.fontfarsi.ir/Content/Fonts/SVG/Far_KoodakBold.svg")
-      format("svg");
+  font-family: Koodakbold;
+  src: url("http://fonts.codearena.ir/b/koodakbold/koodakbold.eot");
+  src: url("http://fonts.codearena.ir/b/koodakbold/koodakbold.eot?#iefix")
+      format("embedded-opentype"),
+    url("http://fonts.codearena.ir/b/koodakbold/koodakbold.woff") format("woff"),
+    url("http://fonts.codearena.ir/b/koodakbold/koodakbold.ttf")
+      format("truetype");
   font-weight: normal;
-  font-style: normal;
 }
-.KoodakBold {
-  font-family: "Far.KoodakBold", Tahoma, Sans-Serif;
-  /* font-size: 24px; */
+.kr-mixed {
+  font-family: "Koodakbold", "Righteous";
+}
+.Koodakbold {
+  font-family: Koodakbold;
 }
 .Indie-Flower {
   font-family: "Indie Flower", cursive;

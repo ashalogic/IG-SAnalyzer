@@ -1,9 +1,9 @@
 import React from "react";
+import { Suspense } from "react";
 // import CloudWords from "../Components/CloudWords";
+// import TopPostEmbed from "../Components/TopPostEmbed";
 import MentionsTable from "../Components/MentionsTable";
 import HashtagsTable from "../Components/HashtagsTable";
-import TopPostEmbed from "../Components/TopPostEmbed";
-import { Suspense } from "react";
 const CloudWords = React.lazy(() => import("../Components/CloudWords"));
 
 export default class Content extends React.Component {
@@ -12,56 +12,55 @@ export default class Content extends React.Component {
     this.state = { isLoading: true };
   }
 
-  componentDidMount() {
-    this.setState(
-      {
-        isLoading: false
-      },
-      function() {}
-    );
-  }
+  componentDidMount() {}
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <div className="container">
-          <div className="row bg-dark">
-            <div className="col text-center">
-              <br />
-              <br />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col text-center">
-              <br />
-              <img alt="loading" src="../images/loading.svg" />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div className="row">
-        <div className="col-md-12 mb-4 align-self-center">
-          <h4 className="Righteous">Top Words</h4>
-          <Suspense fallback={<div>Loading...</div>}>
+      <div className="row mb-4">
+        <div className="col-md-7 align-self-center mt-4">
+          <h4 className="Righteous">
+            <i class="fab fa-cloudversify mr-1"></i>Top Words
+          </h4>
+          <hr />
+          <Suspense
+            fallback={
+              <div class="spinner-grow" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            }
+          >
             <CloudWords data={this.props.Result} />
           </Suspense>
         </div>
-        <div className="col-md-6 mb-4 align-self-center">
-          <h4 className="Righteous">Top 5 Mentions</h4>
+        <div className="col-md-5 mx-auto align-self-start text-center">
+          <div
+            style={{
+              overflow: "hidden"
+            }}
+            className=""
+          >
+            <img
+              alt="content"
+              className="w-75 mx-auto"
+              src="./contentimg.png"
+            />
+          </div>
+        </div>
+        <div className="col-md-6 align-self-center mt-4">
+          <h4 className="Righteous">
+            <i class="fas fa-at mr-1"></i>Top Mentions
+          </h4>
+          <hr />
           <MentionsTable data={this.props.Result.Medias} />
         </div>
-        <div className="col-md-6 mb-4 align-self-center">
-          <h4 className="Righteous">Top 5 Hashtags</h4>
+        <div className="col-md-6 align-self-center mt-4">
+          <h4 className="Righteous">
+            <i class="fas fa-hashtag mr-1"></i>Top Hashtags
+          </h4>
+          <hr />
           <HashtagsTable data={this.props.Result.Medias} />
         </div>
-        <div className="col-md-4 mb-4 align-self-center">
-          <h4 className="Righteous">Top Post</h4>
-          <TopPostEmbed data={this.props.Result} />
-        </div>
-        {/* <div className="col-md-8 mb-4 align-self-center" /> */}
+        
       </div>
     );
   }
