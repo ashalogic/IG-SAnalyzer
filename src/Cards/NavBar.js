@@ -14,7 +14,7 @@ export default () => (
       </span>
       <li class="nav-item">
         <a class="nav-link" style={{ color: "#545b62" }} href="#">
-          About
+          Source
         </a>
       </li>
     </ul>

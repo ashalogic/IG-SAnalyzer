@@ -8,6 +8,7 @@ import Diagnoses from "./Routes/Diagnoses";
 import Fingerprint from "./Routes/Fingerprint";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Content from "./Routes/Content";
+import Analogize from "./Routes/Analogize";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -107,8 +108,12 @@ export default class App extends React.Component {
         <nav className="p-3 scrolling-navbar fixed-top navbar-style text-center">
           <ul className="nav justify-content-center text-center Righteous">
             <li className="nav-item">
-              <a className="nav-link" style={{ color: "#545b62" }} href="/">
-                Home
+              <a
+                className="nav-link"
+                style={{ color: "#545b62" }}
+                href="https://github.com/ashalogic"
+              >
+                About
               </a>
             </li>
             <span
@@ -119,11 +124,12 @@ export default class App extends React.Component {
             </span>
             <li className="nav-item">
               <a
+                alt="source"
                 className="nav-link"
                 style={{ color: "#545b62" }}
-                href="https://github.com/ashalogic"
+                href="https://github.com/ashalogic/IG-SAnalyzer"
               >
-                About
+                Source
               </a>
             </li>
           </ul>
@@ -285,6 +291,14 @@ export default class App extends React.Component {
                 <Diagnoses {...props} Result={this.state.Result} />
               )}
             />
+            <Route
+              path="/analogize/"
+              Result={this.state.Result}
+              component={props => (
+                <Analogize {...props} Result={this.state.Result} />
+              )}
+            />
+
             <div className="row">
               {/* <img
                 className="img-fluid align-self-center col-md-5"

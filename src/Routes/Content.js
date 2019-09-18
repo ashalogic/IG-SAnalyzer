@@ -1,10 +1,8 @@
 import React from "react";
-import { Suspense } from "react";
-// import CloudWords from "../Components/CloudWords";
-// import TopPostEmbed from "../Components/TopPostEmbed";
 import MentionsTable from "../Components/MentionsTable";
 import HashtagsTable from "../Components/HashtagsTable";
-const CloudWords = React.lazy(() => import("../Components/CloudWords"));
+import CloudWords from "../Components/CloudWords";
+import MediasTable from "../Components/MediasTable";
 
 export default class Content extends React.Component {
   constructor(props) {
@@ -17,50 +15,71 @@ export default class Content extends React.Component {
   render() {
     return (
       <div className="row mb-4">
-        <div className="col-md-7 align-self-center mt-4">
+        {/* <div className="col-md-6 align-self-center mt-4">
+          <div
+            className="card card-1 border-0"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.7)"
+            }}
+          >
+            <div className="card-body">
+              <h1>Null</h1>
+            </div>
+          </div>
+        </div> */}
+        <div className="col-md-6 mt-4">
           <h4 className="Righteous">
             <i class="fab fa-cloudversify mr-1"></i>Top Words
           </h4>
           <hr />
-          <Suspense
-            fallback={
-              <div class="spinner-grow" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            }
-          >
-            <CloudWords data={this.props.Result} />
-          </Suspense>
+          <CloudWords data={this.props.Result} />
         </div>
-        <div className="col-md-5 mx-auto align-self-start text-center">
+        <div className="col-md-6 mt-4">
+          <h4 className="Righteous">
+            <i class="fas fa-tv mr-1"></i>Last Display
+          </h4>
+          <hr />
           <div
-            style={{
-              overflow: "hidden"
-            }}
-            className=""
+            className="card border-0"
+            style={{ backgroundColor: "rgba(255,255,255,0.7)" }}
           >
-            <img
-              alt="content"
-              className="w-75 mx-auto"
-              src="./contentimg.png"
-            />
+            <div className="card-body">
+              {this.props.Result.Medias.edges.map(x => (
+                <div
+                  className="rounded-circle"
+                  style={{
+                    display: "inline-block",
+                    backgroundSize: "cover",
+                    backgroundImage: "url('" + x.node.display_url + "')",
+                    height: 48,
+                    width: 48
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <div className="col-md-6 align-self-center mt-4">
+        <div className="col-md-6 mt-4">
           <h4 className="Righteous">
             <i class="fas fa-at mr-1"></i>Top Mentions
           </h4>
           <hr />
           <MentionsTable data={this.props.Result.Medias} />
         </div>
-        <div className="col-md-6 align-self-center mt-4">
+        <div className="col-md-6 mt-4">
           <h4 className="Righteous">
             <i class="fas fa-hashtag mr-1"></i>Top Hashtags
           </h4>
           <hr />
           <HashtagsTable data={this.props.Result.Medias} />
         </div>
-        
+        <div className="col-md-12 mt-4">
+          <h4 className="Righteous">
+            <i class="fas fa-photo-video mr-1"></i>Last 12 Post
+          </h4>
+          <hr />
+          <MediasTable data={this.props.Result.Medias} />
+        </div>
       </div>
     );
   }

@@ -16,14 +16,16 @@ var Chart = {
   option: {
     responsive: true,
     title: {
-      fontFamily: "Righteous",
-      display: false,
-      text: "Medias Types"
+      fontSize: 21,
+      display: true,
+      text: "Medias Type Doughnut",
+      fontFamily: "Righteous"
     },
     tooltips: {
       titleFontFamily: "Righteous"
     },
     legend: {
+      position: "right",
       labels: {
         fontFamily: "Righteous"
       }
@@ -54,10 +56,9 @@ function MediasTypesPC(props) {
 
   return (
     <div
-      className="card igs-card card-2 border-0"
+      className="card border-0"
       style={{
-        backgroundColor: "unset",
-        backdropFilter: "saturate(80%) blur(4px)"
+        backgroundColor: "rgba(255, 255, 255, 0.7)"
       }}
     >
       <div className="card-body">

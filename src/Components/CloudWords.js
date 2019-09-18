@@ -530,17 +530,18 @@ const options = {
     "#FCAF45",
     "#FFDC80"
   ],
-  padding: 2,
-  enableTooltip: true,
+  padding: 4,
+  enableTooltip: false,
   fontFamily: "Koodakbold,Righteous",
-  fontSizes: [24, 64],
+  fontSizes: [16, 48],
   // deterministic: true,
   // fontStyle: "normal",
   // fontWeight: "normal",
-  rotations: 2,
-  rotationAngles: [-45, 45],
+  rotations: 0,
+  rotationAngles: [0, 0],
   // scale: "sqrt",
-  spiral: "rectangular",
+  // spiral: "rectangular",
+  spiral: "archimedean",
   transitionDuration: 500
 };
 
@@ -558,70 +559,100 @@ function normalize(text) {
     .join("");
 }
 
-function CloudWords(props) {
-  var TotalPostWords = [];
-  props.data.Medias.edges.forEach(x => {
-    var edges = x.node.edge_media_to_caption.edges;
-    if (edges.length > 0 && edges[0].node.text !== "") {
-      var ranges = [
-        "\ud83c[\udf00-\udfff]", // U+1F300 to U+1F3FF
-        "\ud83d[\udc00-\ude4f]", // U+1F400 to U+1F64F
-        "\ud83d[\ude80-\udeff]" // U+1F680 to U+1F6FF
-      ];
-      var caption = edges[0].node.text.replace(
-        new RegExp(ranges.join("|"), "g"),
-        " "
-      );
-      TotalPostWords = TotalPostWords.concat(caption.split(/\s+/));
-    }
-  });
-
-  var wordsMap = {};
-  TotalPostWords.forEach(function(key) {
-    if (key.charAt(0) !== "@") {
-      var word_clean = key
-        .trim()
-        .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "");
-
-      if (word_clean === "" || /\d/.test(word_clean)) {
-      } else {
-        if (wordsMap.hasOwnProperty(word_clean)) {
-          wordsMap[word_clean]++;
-        } else {
-          wordsMap[word_clean] = 1;
-        }
-      }
-    }
-  });
-
-  var cloudwords = [];
-  for (var word in wordsMap) {
-    var value_count = wordsMap[word];
-    if (
-      value_count > 2 &&
-      !En_Stopwords.includes(word.trim().toLowerCase()) &&
-      !Fa_Stopwords.includes(normalize(word.trim()))
-    ) {
-      cloudwords.push({
-        text: word.charAt(0).toUpperCase() + word.substr(1),
-        value: value_count
-      });
-    }
+export default class CloudWords extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      options: options
+    };
   }
 
-  cloudwords.sort((a, b) => (a.value < b.value ? 1 : -1));
-  console.log(cloudwords);
-  return (
-    <div
-      className="card card-1 border-0"
-      style={{
-        backgroundColor: "rgba(255, 255, 255, 0.7)"
-      }}
-    >
-      <div className="card-body">
-        <ReactWordcloud maxWords="50" options={options} words={cloudwords} />
+  componentDidMount() {
+    var TotalPostWords = [];
+    this.props.data.Medias.edges.forEach(x => {
+      var edges = x.node.edge_media_to_caption.edges;
+      if (edges.length > 0 && edges[0].node.text !== "") {
+        var ranges = [
+          "\ud83c[\udf00-\udfff]", // U+1F300 to U+1F3FF
+          "\ud83d[\udc00-\ude4f]", // U+1F400 to U+1F64F
+          "\ud83d[\ude80-\udeff]" // U+1F680 to U+1F6FF
+        ];
+        var caption = edges[0].node.text.replace(
+          new RegExp(ranges.join("|"), "g"),
+          " "
+        );
+        TotalPostWords = TotalPostWords.concat(caption.split(/\s+/));
+      }
+    });
+    var wordsMap = {};
+    TotalPostWords.forEach(function(key) {
+      if (key.charAt(0) !== "@") {
+        var word_clean = key
+          .trim()
+          .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "");
+
+        if (word_clean === "" || /\d/.test(word_clean)) {
+        } else {
+          if (wordsMap.hasOwnProperty(word_clean)) {
+            wordsMap[word_clean]++;
+          } else {
+            wordsMap[word_clean] = 1;
+          }
+        }
+      }
+    });
+    var cloudwords = [];
+    for (var word in wordsMap) {
+      var value_count = wordsMap[word];
+      if (
+        value_count > 2 &&
+        !En_Stopwords.includes(word.trim().toLowerCase()) &&
+        !Fa_Stopwords.includes(normalize(word.trim()))
+      ) {
+        cloudwords.push({
+          text: word.charAt(0).toUpperCase() + word.substr(1),
+          value: value_count
+        });
+      }
+    }
+    cloudwords.sort((a, b) => (a.value < b.value ? 1 : -1));
+
+    this.setState({ cloudwords: cloudwords, isLoading: false });
+
+    // console.log(document.getElementById("rwc"));
+    // document.getElementById("rwc").children[0].height = "200px";
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <div className="text-center mx-auto">
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div
+        id="rwc"
+        className="card border-0"
+        style={{
+          // height: "300px",
+          // width: "100%",
+          // opacity: 0.7
+          backgroundColor: "rgba(255, 255, 255, 0.7)"
+        }}
+      >
+        <div className="card-body p-1">
+          <ReactWordcloud
+            maxWords="40"
+            options={this.state.options}
+            words={this.state.cloudwords}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
-export default CloudWords;
