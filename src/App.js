@@ -105,7 +105,10 @@ export default class App extends React.Component {
         }}
       >
         {/* <NavBar /> */}
-        <nav className="p-3 scrolling-navbar fixed-top navbar-style text-center">
+        <nav
+          style={{ zIndex: 2000 }}
+          className="p-3 scrolling-navbar fixed-top navbar-style text-center"
+        >
           <ul className="nav justify-content-center text-center Righteous">
             <li className="nav-item">
               <a

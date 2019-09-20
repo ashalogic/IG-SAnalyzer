@@ -3,6 +3,7 @@ import MentionsTable from "../Components/MentionsTable";
 import HashtagsTable from "../Components/HashtagsTable";
 import CloudWords from "../Components/CloudWords";
 import MediasTable from "../Components/MediasTable";
+import TPDisplay from "../Components/TPDisplay";
 
 export default class Content extends React.Component {
   constructor(props) {
@@ -29,35 +30,17 @@ export default class Content extends React.Component {
         </div> */}
         <div className="col-md-6 mt-4">
           <h4 className="Righteous">
-            <i class="fab fa-cloudversify mr-1"></i>Top Words
+            <i class="fab fa-cloudversify mr-1"></i>Words
           </h4>
           <hr />
           <CloudWords data={this.props.Result} />
         </div>
-        <div className="col-md-6 mt-4">
+        <div className="col-md-12 mt-4">
           <h4 className="Righteous">
-            <i class="fas fa-tv mr-1"></i>Last Display
+            <i class="fas fa-tv mr-1"></i>Images
           </h4>
           <hr />
-          <div
-            className="card border-0"
-            style={{ backgroundColor: "rgba(255,255,255,0.7)" }}
-          >
-            <div className="card-body">
-              {this.props.Result.Medias.edges.map(x => (
-                <div
-                  className="rounded-circle"
-                  style={{
-                    display: "inline-block",
-                    backgroundSize: "cover",
-                    backgroundImage: "url('" + x.node.display_url + "')",
-                    height: 48,
-                    width: 48
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          <TPDisplay data={this.props.Result} />
         </div>
         <div className="col-md-6 mt-4">
           <h4 className="Righteous">

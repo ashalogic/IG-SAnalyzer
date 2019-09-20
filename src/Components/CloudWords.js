@@ -647,7 +647,7 @@ export default class CloudWords extends React.Component {
       >
         <div className="card-body p-1">
           <ReactWordcloud
-            maxWords="40"
+            maxWords="20"
             options={this.state.options}
             words={this.state.cloudwords}
           />

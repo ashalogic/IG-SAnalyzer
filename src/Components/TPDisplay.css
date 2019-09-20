@@ -1,0 +1,6 @@
+.igtpdisplayimage:active {
+  border: solid 5px rgba(255, 255, 255, 0.7);
+}
+.igtpdisplayimage {
+  border: none;
+}
