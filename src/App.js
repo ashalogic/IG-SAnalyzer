@@ -255,12 +255,13 @@ export default class App extends React.Component {
               title="Install IGSAnalyzer"
               style={{
                 display: this.state.installButton ? "unset" : "none",
+                // display:  "unset" ,
                 filter: "drop-shadow(0 2px 4px rgba(34,36,38,0.35))",
                 position: "fixed",
                 cursor: "pointer",
                 padding: 0,
                 zIndex: 10,
-                bottom: 68,
+                bottom: 15,
                 right: 15
               }}
               onClick={this.installApp}

@@ -37,7 +37,7 @@ export default class Content extends React.Component {
         </div>
         <div className="col-md-12 mt-4">
           <h4 className="Righteous">
-            <i class="fas fa-tv mr-1"></i>Images
+            <i class="fas fa-tv mr-1"></i>Images 
           </h4>
           <hr />
           <TPDisplay data={this.props.Result} />
