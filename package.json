@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "@nivo/calendar": "^0.59.1",
-    "chart.js": "^2.8.0",
-    "react": "^16.9.0",
-    "react-chartjs-2": "^2.7.6",
-    "react-dom": "^16.9.0",
+    "chart.js": "^2.9.3",
+    "react": "^16.13.1",
+    "react-chartjs-2": "^2.9.0",
+    "react-dom": "^16.13.1",
     "react-instagram-embed": "^1.5.0",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.0",
-    "react-wordcloud": "^1.0.8"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.1",
+    "react-wordcloud": "^1.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
