@@ -61,7 +61,7 @@ export default class Fingerprint extends React.Component {
               </footer>
             </blockquote>
             <img
-              alt="footer"
+              alt="footerr"
               className="w-50 mx-auto"
               src="undraw_online_resume_qyys.svg"
             />
