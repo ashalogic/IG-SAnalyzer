@@ -16,8 +16,16 @@ export default class Content extends React.Component {
   render() {
     return (
       <div className="row mb-4">
-        {/* <div className="col-md-6 align-self-center mt-4">
-          <div
+   
+        <div className="col-md-6 mt-4">
+          <h4 className="Righteous">
+            <i class="fab fa-cloudversify mr-1"></i>Words
+          </h4>
+          <hr />
+          <CloudWords data={this.props.Result} />
+        </div>
+        <div className="col-md-6 align-self-center mt-4 text-center">
+          {/* <div
             className="card card-1 border-0"
             style={{
               backgroundColor: "rgba(255, 255, 255, 0.7)"
@@ -26,14 +34,12 @@ export default class Content extends React.Component {
             <div className="card-body">
               <h1>Null</h1>
             </div>
-          </div>
-        </div> */}
-        <div className="col-md-6 mt-4">
-          <h4 className="Righteous">
-            <i class="fab fa-cloudversify mr-1"></i>Words
-          </h4>
-          <hr />
-          <CloudWords data={this.props.Result} />
+          </div> */}
+           <img
+              alt="footerr"
+              className="w-75 mx-auto"
+              src="undraw_content_vbqo.svg"
+            />
         </div>
         <div className="col-md-12 mt-4">
           <h4 className="Righteous">

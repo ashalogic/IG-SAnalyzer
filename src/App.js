@@ -4,11 +4,14 @@ import React from "react";
 import { FetchData } from "./Instagram.js";
 
 import Charts from "./Routes/Charts";
-import Diagnoses from "./Routes/Diagnoses";
-import Fingerprint from "./Routes/Fingerprint";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Content from "./Routes/Content";
+import Download from "./Routes/Download";
+import Diagnoses from "./Routes/Diagnoses";
 import Analogize from "./Routes/Analogize";
+import Fingerprint from "./Routes/Fingerprint";
+
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -302,7 +305,13 @@ export default class App extends React.Component {
                 <Analogize {...props} Result={this.state.Result} />
               )}
             />
-
+            <Route
+              path="/download/"
+              Result={this.state.Result}
+              component={props => (
+                <Download {...props} Result={this.state.Result}/>
+              )}
+            />
             <div className="row">
               {/* <img
                 className="img-fluid align-self-center col-md-5"
@@ -315,20 +324,20 @@ export default class App extends React.Component {
                     © {new Date().getFullYear()} IGSAnalyzer All Rights Reserved
                   </p>
                 </div> */}
-                <img
+                {/* <img
                   alt=""
                   className="w-75"
                   src="undraw_environmental_study_skau.svg"
-                />
+                /> */}
                 {/* <br /> */}
                 {/* <img
                   className="w-25"
                   src="https://firelaunchers.com/offers/instagram-follower-magnet-with-plr-upsell/images/illustration_1.png"
                 /> */}
-                {/* <img
+                <img
                   className="w-25"
                   src="https://seguidores.online/wp-content/uploads/2019/01/entrar-a-Instagram-sin-c%C3%B3digo-de-verificaci%C3%B3n.png"
-                /> */}
+                />
                 {/* <img
                   className="w-50"
                   src="https://instazood.com/wp-content/uploads/2019/05/Instagram-Marketing-Automation4@2x.png"

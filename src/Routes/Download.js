@@ -1,7 +1,6 @@
 import React from "react";
-import MediasTable from "../Components/MediasTable";
 
-export default class Diagnoses extends React.Component {
+export default class Download extends React.Component {
   constructor(props) {
     super(props);
   }
