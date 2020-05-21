@@ -29,7 +29,7 @@ export default class App extends React.Component {
 
   installPrompt = null;
   componentDidMount() {
-    FetchData("taylorswift").then(x => {
+    FetchData("lanadelrey").then(x => {
       this.setState({ isLoading: false, Result: x }, function() {});
     });
 
@@ -310,17 +310,17 @@ export default class App extends React.Component {
                 src="./loading.png"
               /> */}
               <div className="col-md-8 mx-auto text-center align-self-center mt-2">
-                <div className="">
+                {/* <div className="">
                   <p className="lead">
                     © {new Date().getFullYear()} IGSAnalyzer All Rights Reserved
                   </p>
-                </div>
+                </div> */}
                 <img
                   alt=""
-                  className="w-25"
-                  src="https://getswarm.co/wp-content/uploads/2019/07/175e42060fd8694667a8ae0fc3f6265d-640x600.png "
+                  className="w-75"
+                  src="undraw_environmental_study_skau.svg"
                 />
-                <br />
+                {/* <br /> */}
                 {/* <img
                   className="w-25"
                   src="https://firelaunchers.com/offers/instagram-follower-magnet-with-plr-upsell/images/illustration_1.png"
@@ -337,11 +337,11 @@ export default class App extends React.Component {
                   className="w-25"
                   src="https://mixtarget.com/wp-content/uploads/2019/06/influencer.png"
                 /> */}
-                <img
+                {/* <img
                   alt=""
                   className="w-75"
                   src="https://www.geckoboard.com/assets/analysis-guide-illo-4.png"
-                />
+                /> */}
 
                 {/* <img
                   className="w-100"
