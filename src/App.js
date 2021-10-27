@@ -3,12 +3,12 @@ import React from "react";
 // import NavBar from "./Cards/NavBar";
 import { FetchData } from "./Instagram.js";
 
-import Charts from "./Routes/Charts";
-import Content from "./Routes/Content";
-import Download from "./Routes/Download";
-import Diagnoses from "./Routes/Diagnoses";
-import Analogize from "./Routes/Analogize";
-import Fingerprint from "./Routes/Fingerprint";
+// import Charts from "./Routes/Charts";
+// import Content from "./Routes/Content";
+// import Download from "./Routes/Download";
+// import Diagnoses from "./Routes/Diagnoses";
+// import Analogize from "./Routes/Analogize";
+// import Fingerprint from "./Routes/Fingerprint";
 
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
